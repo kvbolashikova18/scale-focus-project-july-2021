@@ -1,9 +1,73 @@
 #include <iostream> 
 #include <nanodbc.h> 
 #include <exception> 
+#include <string>
 using namespace std;
 
+enum status
+{
+	pending,
+	inProgress,
+	completed
+};
 
+struct USER
+{
+	int id;
+	string username;
+	string password;
+	string firstName;
+	string lastName;
+	//date dateOfCreation;
+	int idOfCreator;
+	//date dateOfLastChange;
+	int idOfChanger;
+	bool isAdmin;
+};
+
+struct TEAM
+{
+	int id;
+	string title;
+	//date dateOfCreation;
+	int idOfCreator;
+	//date dateOfLastChange;
+	int idOfChanger;
+};
+
+struct PROJECT
+{
+	int id;
+	string title;
+	string description;
+	//date dateOfCreation;
+	int idOfCreator;
+	//date dateOfLastChange;
+	int idOfChanger;
+};
+
+struct TASK
+{
+	int id;
+	int idOfProject;
+	int idOfAssignee;
+	string title;
+	string description;
+	status status;
+	//date dateOfCreation;
+	int idOfCreator;
+	//date dateOfLastChange;
+	int idOfChanger;
+};
+
+struct LOG
+{
+	int id;
+	int idOfTask;
+	int idOfUser;
+	int time;
+	//date date;
+};
 
 int main()
 {
