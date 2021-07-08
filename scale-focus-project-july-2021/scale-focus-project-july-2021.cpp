@@ -2,6 +2,7 @@
 #include <nanodbc.h> 
 #include <exception> 
 #include <string>
+#include <vector>
 using namespace std;
 
 // defining colors used for output design
@@ -29,9 +30,9 @@ struct USER
 	string password;
 	string firstName;
 	string lastName;
-	//date dateOfCreation;
+	string dateOfCreation;
 	int idOfCreator;
-	//date dateOfLastChange;
+	string dateOfLastChange;
 	int idOfChanger;
 	bool isAdmin;
 };
@@ -132,20 +133,31 @@ bool returnBack()
 int main()
 {
 	try {
-		auto const connstr = NANODBC_TEXT("DRIVER={ODBC Driver 17 for SQL Server};SERVER=(localdb)\\MSSQLLocaldb;DATABASE=Team Management;Trusted_Connection=yes;"); // an ODBC connection string to your database nanodbc::connection conn(connstr);
+		nanodbc::string connstr = NANODBC_TEXT("DRIVER={ODBC Driver 17 for SQL Server};SERVER=(localdb)\\MSSQLLocaldb;DATABASE=Team Management;Trusted_Connection=yes;"); // an ODBC connection string to your database
 
 		nanodbc::connection conn(connstr);
 
-		auto result = nanodbc::execute(conn, NANODBC_TEXT(R"( SELECT TOP 2 * FROM BikeStores.sales.customers )"));
+		auto result = nanodbc::execute(conn, NANODBC_TEXT(R"( SELECT TOP 3 * FROM [Team Management].dbo.Users )"));
 
 		while (result.next()) {
-			auto i = result.get<int>(0); auto firstName = result.get<nanodbc::string>(1, "NULL FIELD");
+		 int id = result.get<int>("Id"); 
+	     string username = result.get<nanodbc::string>("Username");
+		 string password = result.get<nanodbc::string>("Password");
+		 string firstName = result.get<nanodbc::string>("First Name");
+		 string lastName = result.get<nanodbc::string>("Last Name");
+		 string dateOfCreation = result.get<nanodbc::string>("Date of creation");
+		 //int idOfCreator = result.get<int>("Id of creator");
+		 string dateOfLastChange = result.get<nanodbc::string>("Date of last change");
+		 //int idOfChanger = result.get<int>("Id of changer");
 
-			cout << i << ", " << firstName << endl;
-		} return EXIT_SUCCESS;
+		 cout << id << ", " << username << ", "<< password << ", " << firstName << ", " << lastName << ", " << dateOfCreation << ", " << dateOfLastChange << endl;
+		} 
+		
+		return EXIT_SUCCESS;
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << e.what() << std::endl; return EXIT_FAILURE;
+		std::cerr << e.what() << std::endl;
+		return EXIT_FAILURE;
 	}
 }
