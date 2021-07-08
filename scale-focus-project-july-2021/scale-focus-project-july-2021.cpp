@@ -80,6 +80,23 @@ struct LOG
 	//date date;
 };
 
+
+// reads input and prints an error until the user enters an integer
+int cinInt()
+{
+	int number;
+
+	while (!(cin >> number)) {
+
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		cout << endl;
+		cout << RED << "You have to enter a number. Please, try again: " << RESET;
+	}
+
+	return number;
+}
+
 int main()
 {
 	try {
