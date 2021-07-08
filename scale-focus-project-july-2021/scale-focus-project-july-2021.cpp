@@ -4,6 +4,17 @@
 #include <string>
 using namespace std;
 
+// defining colors used for output design
+#define RESET   "\033[0m"
+#define RED     "\033[1;91m" 
+#define YELLOW  "\033[1;93m"  
+#define GREEN   "\033[1;92m"
+#define BLUE    "\033[0;36m"
+#define CYAN    "\033[1;96m"
+#define PURPLE  "\033[1;95m"
+#define GRAY    "\033[1;90m" 
+#define WHITE   "\033[4;37m"
+
 enum status
 {
 	pending,
