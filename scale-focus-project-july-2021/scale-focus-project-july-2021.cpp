@@ -97,10 +97,42 @@ int cinInt()
 	return number;
 }
 
+// function that asks the user if they want to return to the main menu
+bool returnBack()
+{
+	int choice;
+
+	cout << endl;
+	cout << "What would you like to do now?" << endl << endl;
+	cout << GREEN << "1)" << RESET << " Stay in this menu" << endl;
+	cout << GRAY << "2)" << RESET << " Go back to the main menu" << endl << endl;
+	cout << "Enter your choice: ";
+
+	choice = cinInt();
+
+	while (choice > 2 or choice < 1)
+	{
+		cout << endl;
+		cout << RED << "The number you enter has to be either 1 or 2! Please, try again: " RESET;
+		choice = cinInt();
+	}
+
+	cout << endl;
+
+	system("cls");
+
+	if (choice == 1)
+		return true;
+
+	return false;
+}
+
+
+
 int main()
 {
 	try {
-		auto const connstr = NANODBC_TEXT("DRIVER={ODBC Driver 17 for SQL Server};SERVER=(localdb)\\MSSQLLocaldb;DATABASE=BikeStores;Trusted_Connection=yes;"); // an ODBC connection string to your database nanodbc::connection conn(connstr);
+		auto const connstr = NANODBC_TEXT("DRIVER={ODBC Driver 17 for SQL Server};SERVER=(localdb)\\MSSQLLocaldb;DATABASE=Team Management;Trusted_Connection=yes;"); // an ODBC connection string to your database nanodbc::connection conn(connstr);
 
 		nanodbc::connection conn(connstr);
 
