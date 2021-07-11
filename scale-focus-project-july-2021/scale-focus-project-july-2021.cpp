@@ -1,5 +1,5 @@
 #include <iostream> 
-#include <nanodbc.h> 
+//#include <nanodbc.h> 
 #include <exception> 
 #include <string>
 #include <vector>
@@ -162,7 +162,7 @@ void displayLog(LOG* logs, int index)
 }
 
 
-void getUserFromDatabase(nanodbc::connection conn, USER* users, int& index)
+/*void getUserFromDatabase(nanodbc::connection conn, USER* users, int& index)
 {
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
@@ -185,7 +185,7 @@ void getUserFromDatabase(nanodbc::connection conn, USER* users, int& index)
 	}
 
 	index++;
-}
+}*/
 
 
 // function that asks the user if they want to return to the main menu
@@ -219,6 +219,255 @@ bool returnBack()
 }
 
 
+void displayProjectsMenu()
+{
+	bool cont = true;
+
+	while (cont == true)
+	{
+		int choice = 0;
+
+		cout << endl;
+		cout << "  _____           _           _       " << endl;
+		cout << " |  __ \\         (_)         | |      " << endl;
+		cout << " | |__) | __ ___  _  ___  ___| |_ ___ " << endl;
+		cout << " |  ___/ '__/ _ \\| |/ _ \\/ __| __/ __|" << endl;
+		cout << " | |   | | | (_) | |  __/ (__| |_\\__ \\" << endl;
+		cout << " |_|   |_|  \\___/| |\\___|\\___|\\__|___/" << endl;
+		cout << "                _/ |                  " << endl;
+		cout << "               |__/                   " << endl << endl;
+		cout << " =======================================" << endl;
+		cout << "|" << " 1)" << YELLOW << " Show a list of all projects" << RESET << "        |" << endl;
+		cout << "|" << " 2)" << GREEN << " Create a project" << RESET << "                   |" << endl;
+		cout << "|" << " 3)" << CYAN << " Edit a project" << RESET << "                     |" << endl;
+		cout << "|" << " 4)" << RED << " Delete a project" << RESET << "                   |" << endl;
+		cout << "|" << " 5)" << PURPLE << " Assign a team to a project" << RESET << "         |" << endl;
+		cout << "|" << " 6)" << GRAY << " Return back to the Main Menu" << RESET << "       |" << endl;
+		cout << " =======================================" << endl << endl;
+
+		cout << "Enter your choice: ";
+		choice = cinInt();
+
+		while (choice > 6 or choice < 1)
+		{
+			cout << endl;
+			cout << RED << "The number you enter has to be between 1 and 6! Please, try again: " << RESET;
+			choice = cinInt();
+		}
+
+		system("cls");
+
+		switch (choice)
+		{
+		case 1:
+			//
+			cont = returnBack();
+			break;
+		case 2:
+			//
+			cont = returnBack();
+			break;
+		case 3:
+			//
+			cont = returnBack();
+			break;
+		case 4:
+			//
+			cont = returnBack();
+			break;
+		case 5:
+			//
+			cont = returnBack();
+			break;
+		case 6:
+			cont = false;
+			break;
+		}
+	}
+}
+
+void displayTeamsMenu()
+{
+	bool cont = true;
+
+	while (cont == true)
+	{
+		int choice = 0;
+
+		cout << endl;
+		cout << "  _______                       " << endl;
+		cout << " |__   __|                      " << endl;
+		cout << "    | | ___  __ _ _ __ ___  ___ " << endl;
+		cout << "    | |/ _ \\/ _` | '_ ` _ \\/ __|" << endl;
+		cout << "    | |  __/ (_| | | | | | \\__ \\" << endl;
+		cout << "    |_|\\___|\\__,_|_| |_| |_|___/" << endl << endl;
+		cout << " =======================================" << endl;
+		cout << "|" << " 1)" << YELLOW << " Show a list of all teams" << RESET << "           |" << endl;
+		cout << "|" << " 2)" << GREEN << " Create a team" << RESET << "                      |" << endl;
+		cout << "|" << " 3)" << CYAN << " Edit a team" << RESET << "                        |" << endl;
+		cout << "|" << " 4)" << RED << " Delete a team" << RESET << "                      |" << endl;
+		cout << "|" << " 5)" << PURPLE << " Assign a user to a team" << RESET << "            |" << endl;
+		cout << "|" << " 6)" << GRAY << " Return back to the Main Menu" << RESET << "       |" << endl;
+		cout << " =======================================" << endl << endl;
+
+		cout << "Enter your choice: ";
+		choice = cinInt();
+
+		while (choice > 6 or choice < 1)
+		{
+			cout << endl;
+			cout << RED << "The number you enter has to be between 1 and 6! Please, try again: " << RESET;
+			choice = cinInt();
+		}
+
+		system("cls");
+
+		switch (choice)
+		{
+		case 1:
+			//
+			cont = returnBack();
+			break;
+		case 2:
+			//
+			cont = returnBack();
+			break;
+		case 3:
+			//
+			cont = returnBack();
+			break;
+		case 4:
+			//
+			cont = returnBack();
+			break;
+		case 5:
+			//
+			cont = returnBack();
+			break;
+		case 6:
+			cont = false;
+			break;
+		}
+	}
+}
+
+void displayUsersMenu()
+{
+	bool cont = true;
+
+	while (cont == true)
+	{
+		int choice = 0;
+
+		cout << endl;
+		cout << "  _    _                   " << endl;
+		cout << " | |  | |                  " << endl;
+		cout << " | |  | |___  ___ _ __ ___ " << endl;
+		cout << " | |  | / __|/ _ \\ '__/ __|" << endl;
+		cout << " | |__| \\__ \\  __/ |  \\__ \\" << endl;
+		cout << "  \\____/|___/\\___|_|  |___/" << endl << endl;
+		cout << " =======================================" << endl;
+		cout << "|" << " 1)" << YELLOW << " Show a list of all users" << RESET << "           |" << endl;
+		cout << "|" << " 2)" << GREEN << " Create a user" << RESET << "                      |" << endl;
+		cout << "|" << " 3)" << CYAN << " Edit a user" << RESET << "                        |" << endl;
+		cout << "|" << " 4)" << RED << " Delete a user" << RESET << "                      |" << endl;
+		cout << "|" << " 5)" << GRAY << " Return back to the Main Menu" << RESET << "       |" << endl;
+		cout << " =======================================" << endl << endl;
+
+		cout << "Enter your choice: ";
+		choice = cinInt();
+
+		while (choice > 5 or choice < 1)
+		{
+			cout << endl;
+			cout << RED << "The number you enter has to be between 1 and 5! Please, try again: " << RESET;
+			choice = cinInt();
+		}
+
+		system("cls");
+
+		switch (choice)
+		{
+		case 1:
+			//
+			cont = returnBack();
+			break;
+		case 2:
+		    //
+			cont = returnBack();
+			break;
+		case 3:
+			//
+			cont = returnBack();
+			break;
+		case 4:
+			//
+			cont = returnBack();
+			break;
+		case 5:
+			cont = false;
+			break;
+		}
+	}
+}
+
+void displayMainMenu()
+{
+	int choice = 0;
+
+	while (choice != 4)
+	{
+		cout << endl;
+
+		cout << " __  __       _         __  __                      " << endl;
+		cout << "|  \\/  |     (_)       |  \\/  |                   " << endl;
+		cout << "| \\  / | __ _ _ _ __   | \\  / | ___ _ __  _   _   " << endl;
+		cout << "| |\\/| |/ _` | | '_ \\  | |\\/| |/ _ \\ '_ \\| | | |" << endl;
+		cout << "| |  | | (_| | | | | | | |  | |  __/ | | | |_| |    " << endl;
+		cout << "|_|  |_|\\__,_|_|_| |_| |_|  |_|\\___|_| |_|\\__,_| " << endl;
+
+		cout << endl;
+		cout << endl;
+
+		cout << "Which set of data would you like to work with?" << endl << endl;
+		cout << " =====================" << endl;
+		cout << "|" << " 1)" << YELLOW << " Users" << RESET << "            |" << endl;
+		cout << "|" << " 2)" << GREEN << " Teams" << RESET << "            |" << endl;
+		cout << "|" << " 3)" << CYAN << " Projects" << RESET << "         |" << endl;
+		cout << "|" << " 4)" << GRAY << " Exit" << RESET << "             |" << endl;
+		cout << " =====================" << endl;
+		cout << endl;
+		cout << "Enter your choice: ";
+		choice = cinInt();
+
+		while (choice > 4 or choice < 1)
+		{
+			cout << endl;
+			cout << RED << "The number you enter has to be between 1 and 4! Please, try again: " << RESET;
+			choice = cinInt();
+		}
+
+		system("cls");
+
+		switch (choice)
+		{
+		case 1:
+			displayUsersMenu();
+			break;
+		case 2:
+			displayTeamsMenu();
+			break;
+		case 3:
+			displayProjectsMenu();
+			break;
+		case 4:
+			exit(0);
+			break;
+		}
+	}
+
+}
+
 int main()
 {
 	USER* users = new USER[100];
@@ -229,9 +478,9 @@ int main()
 
 	int userIndex = 0, teamIndex = 0, projectIndex = 0, taskIndex = 0, logIndex = 0;
 
-	
+	displayMainMenu();
 
-	try {
+	/*try {
 		nanodbc::string connstr = NANODBC_TEXT("DRIVER={ODBC Driver 17 for SQL Server};SERVER=(localdb)\\MSSQLLocaldb;DATABASE=Team Management;Trusted_Connection=yes;"); // an ODBC connection string to your database
 
 		nanodbc::connection conn(connstr);
@@ -248,7 +497,7 @@ int main()
 	{
 		std::cerr << e.what() << std::endl;
 		return EXIT_FAILURE;
-	}
+	}*/
 
 	
 }
