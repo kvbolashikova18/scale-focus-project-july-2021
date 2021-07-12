@@ -1,5 +1,5 @@
 #include <iostream> 
-//#include <nanodbc.h> 
+#include <nanodbc.h> 
 #include <exception> 
 #include <string>
 #include <vector>
@@ -110,6 +110,8 @@ void displayUser(USER* users, int index)
 	cout << "ID of creator: " << users[index].idOfCreator << endl;
 	cout << "Date of last change: " << users[index].dateOfLastChange << endl;
 	cout << "ID of last changer: " << users[index].idOfChanger << endl;
+
+	cout << endl;
 }
 
 void displayTeam(TEAM* teams, int index)
@@ -120,6 +122,8 @@ void displayTeam(TEAM* teams, int index)
 	cout << "ID of creator: " << teams[index].idOfCreator << endl;
 	cout << "Date of last change: " << teams[index].dateOfLastChange << endl;
 	cout << "ID of last changer: " << teams[index].idOfChanger << endl;
+
+	cout << endl;
 }
 
 void displayProject(PROJECT* projects, int index)
@@ -131,6 +135,8 @@ void displayProject(PROJECT* projects, int index)
 	cout << "ID of creator: " << projects[index].idOfCreator << endl;
 	cout << "Date of last change: " << projects[index].dateOfLastChange << endl;
 	cout << "ID of last changer: " << projects[index].idOfChanger << endl;
+
+	cout << endl;
 }
 
 void displayTask(TASK* tasks, int index)
@@ -150,6 +156,8 @@ void displayTask(TASK* tasks, int index)
 	cout << "ID of creator: " << tasks[index].idOfCreator << endl;
 	cout << "Date of last change: " << tasks[index].dateOfLastChange << endl;
 	cout << "ID of last changer: " << tasks[index].idOfChanger << endl;
+
+	cout << endl;
 }
 
 void displayLog(LOG* logs, int index)
@@ -159,14 +167,16 @@ void displayLog(LOG* logs, int index)
 	cout << "ID of user: " << logs[index].idOfUser << endl;
 	cout << "Time spent (hours): " << logs[index].time << endl;
 	cout << "Date: " << logs[index].date << endl;
+
+	cout << endl;
 }
 
 
-/*void getUserFromDatabase(nanodbc::connection conn, USER* users, int& index)
+void getUserFromDatabase(nanodbc::connection conn, USER* users, int& index)
 {
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
-    SELECT *
+    SELECT * 
     FROM [Team Management].dbo.Users
     )"));
 
@@ -182,10 +192,102 @@ void displayLog(LOG* logs, int index)
 		//users[index].idOfCreator = result.get<int>("Id of creator");
 		users[index].dateOfLastChange = result.get<nanodbc::string>("Date of last change");
 		//users[index].idOfChanger = result.get<int>("Id of changer");
-	}
 
-	index++;
-}*/
+		index++;
+	}
+}
+
+void getTeamFromDatabase(nanodbc::connection conn, TEAM* teams, int& index)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    SELECT * 
+    FROM [Team Management].dbo.Teams
+    )"));
+
+	auto result = execute(statement);
+
+	while (result.next()) {
+		teams[index].id = result.get<int>("Id");
+		teams[index].title = result.get<nanodbc::string>("Title");
+		teams[index].dateOfCreation = result.get<nanodbc::string>("Date of creation");
+		teams[index].idOfCreator = result.get<int>("Id of creator");
+		teams[index].dateOfLastChange = result.get<nanodbc::string>("Date of last change");
+		teams[index].idOfChanger = result.get<int>("Id of changer");
+
+		index++;
+	}
+}
+
+void getProjectFromDatabase4(nanodbc::connection conn, PROJECT* projects, int& index)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    SELECT * 
+    FROM [Team Management].dbo.Projects
+    )"));
+
+	auto result = execute(statement);
+
+	while (result.next()) {
+		projects[index].id = result.get<int>("Id");
+		projects[index].title = result.get<nanodbc::string>("Title");
+		projects[index].description = result.get<nanodbc::string>("Description");
+		projects[index].dateOfCreation = result.get<nanodbc::string>("Date of creation");
+		projects[index].idOfCreator = result.get<int>("Id of creator");
+		projects[index].dateOfLastChange = result.get<nanodbc::string>("Date of last change");
+		projects[index].idOfChanger = result.get<int>("Id of changer");
+
+		index++;
+	}
+}
+
+void getTaskFromDatabase(nanodbc::connection conn, TASK* tasks, int& index)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    SELECT * 
+    FROM [Team Management].dbo.Tasks
+    )"));
+
+	auto result = execute(statement);
+
+	while (result.next()) {
+		tasks[index].id = result.get<int>("Id");
+		tasks[index].idOfProject = result.get<int>("Id of Project");
+		tasks[index].idOfAssignee = result.get<int>("Id of Assignee");
+		tasks[index].title = result.get<nanodbc::string>("Title");
+		tasks[index].description = result.get<nanodbc::string>("Description");
+		//tasks[index].status = result.get<status>("Status");
+		tasks[index].dateOfCreation = result.get<nanodbc::string>("Date of creation");
+	    tasks[index].idOfCreator = result.get<int>("Id of creator");
+		tasks[index].dateOfLastChange = result.get<nanodbc::string>("Date of last change");
+		tasks[index].idOfChanger = result.get<int>("Id of changer");
+
+		index++;
+	}
+}
+
+void getLogFromDatabase(nanodbc::connection conn, LOG* logs, int& index)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    SELECT * 
+    FROM [Team Management].dbo.Logs
+    )"));
+
+	auto result = execute(statement);
+
+	while (result.next()) {
+		logs[index].id = result.get<int>("Id");
+		logs[index].idOfTask = result.get<int>("Id of Task");
+		logs[index].idOfUser = result.get<int>("Id of User");
+		logs[index].time = result.get<int>("Time");
+		logs[index].date = result.get<nanodbc::string>("Date");
+
+		index++;
+	}
+}
 
 
 // function that asks the user if they want to return to the main menu
@@ -476,11 +578,11 @@ int main()
 	TASK* tasks = new TASK[20];
 	LOG* logs = new LOG[100];
 
-	int userIndex = 0, teamIndex = 0, projectIndex = 0, taskIndex = 0, logIndex = 0;
+	int userIndex = 0, teamIndex = 3, projectIndex = 3, taskIndex = 2, logIndex = 2;
 
-	displayMainMenu();
+	//displayMainMenu();
 
-	/*try {
+	try {
 		nanodbc::string connstr = NANODBC_TEXT("DRIVER={ODBC Driver 17 for SQL Server};SERVER=(localdb)\\MSSQLLocaldb;DATABASE=Team Management;Trusted_Connection=yes;"); // an ODBC connection string to your database
 
 		nanodbc::connection conn(connstr);
@@ -488,8 +590,16 @@ int main()
 		//auto result = nanodbc::execute(conn, NANODBC_TEXT(R"( SELECT TOP 3 * FROM [Team Management].dbo.Users )"));
 
 
-		getUserFromDatabase(conn, users, userIndex);
-		displayUser(users, 0);
+		for (int i = 0; i < logIndex; i++)
+		{
+			getLogFromDatabase(conn, logs, i);
+		}
+
+		for (int i = 0; i < logIndex; i++)
+		{
+			displayLog(logs, i);
+		}
+
 
 		return EXIT_SUCCESS;
 	}
@@ -497,7 +607,6 @@ int main()
 	{
 		std::cerr << e.what() << std::endl;
 		return EXIT_FAILURE;
-	}*/
+	}
 
-	
 }
