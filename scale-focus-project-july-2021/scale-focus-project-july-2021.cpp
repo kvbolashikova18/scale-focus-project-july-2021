@@ -219,7 +219,7 @@ void getTeamFromDatabase(nanodbc::connection conn, TEAM* teams, int& index)
 	}
 }
 
-void getProjectFromDatabase4(nanodbc::connection conn, PROJECT* projects, int& index)
+void getProjectFromDatabase(nanodbc::connection conn, PROJECT* projects, int& index)
 {
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
@@ -321,7 +321,7 @@ bool returnBack()
 }
 
 
-void displayProjectsMenu()
+void displayProjectsMenu(PROJECT* projects, int& projectIndex, nanodbc::connection conn)
 {
 	bool cont = true;
 
@@ -362,7 +362,10 @@ void displayProjectsMenu()
 		switch (choice)
 		{
 		case 1:
-			//
+			for (int i = 0; i < projectIndex; i++)
+			{
+				displayProject(projects, i);
+			}
 			cont = returnBack();
 			break;
 		case 2:
@@ -388,7 +391,7 @@ void displayProjectsMenu()
 	}
 }
 
-void displayTeamsMenu()
+void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn)
 {
 	bool cont = true;
 
@@ -427,7 +430,10 @@ void displayTeamsMenu()
 		switch (choice)
 		{
 		case 1:
-			//
+			for (int i = 0; i < teamIndex; i++)
+			{
+				displayTeam(teams, i);
+			}
 			cont = returnBack();
 			break;
 		case 2:
@@ -453,7 +459,7 @@ void displayTeamsMenu()
 	}
 }
 
-void displayUsersMenu()
+void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn)
 {
 	bool cont = true;
 
@@ -491,7 +497,10 @@ void displayUsersMenu()
 		switch (choice)
 		{
 		case 1:
-			//
+			for (int i = 0; i < userIndex; i++)
+			{
+				displayUser(users, i);
+			}
 			cont = returnBack();
 			break;
 		case 2:
@@ -513,7 +522,7 @@ void displayUsersMenu()
 	}
 }
 
-void displayMainMenu()
+void displayMainMenu(USER* users, int& userIndex, TEAM* teams, int& teamIndex, PROJECT* projects, int& projectIndex, TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn)
 {
 	int choice = 0;
 
@@ -554,13 +563,13 @@ void displayMainMenu()
 		switch (choice)
 		{
 		case 1:
-			displayUsersMenu();
+			displayUsersMenu(users, userIndex, conn);
 			break;
 		case 2:
-			displayTeamsMenu();
+			displayTeamsMenu(teams, teamIndex, conn);
 			break;
 		case 3:
-			displayProjectsMenu();
+			displayProjectsMenu(projects, projectIndex, conn);
 			break;
 		case 4:
 			exit(0);
@@ -578,9 +587,9 @@ int main()
 	TASK* tasks = new TASK[20];
 	LOG* logs = new LOG[100];
 
-	int userIndex = 0, teamIndex = 3, projectIndex = 3, taskIndex = 2, logIndex = 2;
+	int userIndex = 4, teamIndex = 3, projectIndex = 3, taskIndex = 2, logIndex = 2;
 
-	//displayMainMenu();
+	
 
 	try {
 		nanodbc::string connstr = NANODBC_TEXT("DRIVER={ODBC Driver 17 for SQL Server};SERVER=(localdb)\\MSSQLLocaldb;DATABASE=Team Management;Trusted_Connection=yes;"); // an ODBC connection string to your database
@@ -589,17 +598,33 @@ int main()
 
 		//auto result = nanodbc::execute(conn, NANODBC_TEXT(R"( SELECT TOP 3 * FROM [Team Management].dbo.Users )"));
 
+		for (int i = 0; i < userIndex; i++)
+		{
+			getUserFromDatabase(conn, users, i);
+		}
+
+		for (int i = 0; i < teamIndex; i++)
+		{
+			getTeamFromDatabase(conn, teams, i);
+		}
+
+		for (int i = 0; i < projectIndex; i++)
+		{
+			getProjectFromDatabase(conn, projects, i);
+		}
+
+		for (int i = 0; i < taskIndex; i++)
+		{
+			getTaskFromDatabase(conn, tasks, i);
+		}
 
 		for (int i = 0; i < logIndex; i++)
 		{
 			getLogFromDatabase(conn, logs, i);
 		}
 
-		for (int i = 0; i < logIndex; i++)
-		{
-			displayLog(logs, i);
-		}
 
+		displayMainMenu(users, userIndex, teams, teamIndex, projects, projectIndex, tasks, taskIndex, logs, logIndex, conn);
 
 		return EXIT_SUCCESS;
 	}
