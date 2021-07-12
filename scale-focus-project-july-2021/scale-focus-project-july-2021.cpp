@@ -99,6 +99,15 @@ int cinInt()
 	return number;
 }
 
+string cinText()
+{
+	cin.ignore(1, '\n');
+	string text;
+	getline(cin, text);
+
+	return text;
+}
+
 
 void displayUser(USER* users, int index)
 {
@@ -259,7 +268,7 @@ void getTaskFromDatabase(nanodbc::connection conn, TASK* tasks, int& index)
 		tasks[index].idOfAssignee = result.get<int>("Id of Assignee");
 		tasks[index].title = result.get<nanodbc::string>("Title");
 		tasks[index].description = result.get<nanodbc::string>("Description");
-		//tasks[index].status = result.get<status>("Status");
+		tasks[index].status = (status)result.get<int>("Status");
 		tasks[index].dateOfCreation = result.get<nanodbc::string>("Date of creation");
 	    tasks[index].idOfCreator = result.get<int>("Id of creator");
 		tasks[index].dateOfLastChange = result.get<nanodbc::string>("Date of last change");
@@ -291,9 +300,50 @@ void getLogFromDatabase(nanodbc::connection conn, LOG* logs, int& index)
 }
 
 
-void editUser()
+void insertUser(nanodbc::connection conn, USER* users, int& index)
 {
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    INSERT INTO
+    [Team Management].dbo.Users
+    (Username, [Password], [First Name], [Last Name], [Date of creation], [Id of creator], [Date of last change], [Id of changer], [isAdmin])
+    VALUES
+    (? ? ? ? ? ? ? ? ?)
+    )"));
 
+	cout << "Username: ";
+	users[index].username = cinText();
+	statement.bind(0, users[index].username.c_str());
+
+	cout << "Password: ";
+	users[index].password = cinText();
+	statement.bind(1, users[index].password.c_str());
+
+	cout << "First name: ";
+	users[index].firstName = cinText();
+	statement.bind(2, users[index].firstName.c_str());
+
+	cout << "Last name: ";
+	users[index].lastName = cinText();
+	statement.bind(3, users[index].lastName.c_str());
+
+	cout << "Date of creation: ";
+	users[index].dateOfCreation = cinText();
+	statement.bind(4, users[index].dateOfCreation.c_str());
+
+	cout << "Id of creator: ";
+	users[index].idOfCreator = cinInt();
+	statement.bind(5, &users[index].idOfCreator);
+
+	cout << "Date of last change: ";
+	users[index].dateOfLastChange = cinText();
+	statement.bind(6, users[index].dateOfLastChange.c_str());
+
+	cout << "Id of last changer: ";
+	users[index].idOfChanger = cinInt();
+	statement.bind(7, &users[index].idOfChanger);
+
+	execute(statement);
 }
 
 // function that asks the user if they want to return to the main menu
@@ -646,8 +696,11 @@ int main()
 			getLogFromDatabase(conn, logs, i);
 		}
 
+		
 
 		displayMainMenu(users, userIndex, teams, teamIndex, projects, projectIndex, tasks, taskIndex, logs, logIndex, conn);
+
+		//insertUser(conn, users, userIndex);
 
 		return EXIT_SUCCESS;
 	}
