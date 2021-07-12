@@ -3,6 +3,7 @@
 #include <exception> 
 #include <string>
 #include <vector>
+#include <conio.h>
 using namespace std;
 
 // defining colors used for output design
@@ -290,6 +291,11 @@ void getLogFromDatabase(nanodbc::connection conn, LOG* logs, int& index)
 }
 
 
+void editUser()
+{
+
+}
+
 // function that asks the user if they want to return to the main menu
 bool returnBack()
 {
@@ -320,6 +326,23 @@ bool returnBack()
 	return false;
 }
 
+/*string enterHiddenText()
+{
+	string password = "";
+	char symbol = ' ';
+
+	while (symbol!='	')
+	{
+		symbol = _getch();
+		if (symbol != '	')
+		 cout << YELLOW << '*' << RESET;
+
+		password += symbol;
+	}
+	cout << endl;
+  
+	return password;
+}*/
 
 void displayProjectsMenu(PROJECT* projects, int& projectIndex, nanodbc::connection conn)
 {
@@ -588,7 +611,7 @@ int main()
 	LOG* logs = new LOG[100];
 
 	int userIndex = 4, teamIndex = 3, projectIndex = 3, taskIndex = 2, logIndex = 2;
-
+	USER currentUser;
 	
 
 	try {
