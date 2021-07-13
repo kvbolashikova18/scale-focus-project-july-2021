@@ -101,7 +101,7 @@ int cinInt()
 
 string cinText()
 {
-	cin.ignore(1, '\n');
+	cin.ignore(0, '\n');
 	string text;
 	getline(cin, text);
 
@@ -199,9 +199,9 @@ void getUserFromDatabase(nanodbc::connection conn, USER* users, int& index)
 		users[index].firstName = result.get<nanodbc::string>("First Name");
 		users[index].lastName = result.get<nanodbc::string>("Last Name");
 		users[index].dateOfCreation = result.get<nanodbc::string>("Date of creation");
-		//users[index].idOfCreator = result.get<int>("Id of creator");
+		users[index].idOfCreator = result.get<int>("Id of creator");
 		users[index].dateOfLastChange = result.get<nanodbc::string>("Date of last change");
-		//users[index].idOfChanger = result.get<int>("Id of changer");
+		users[index].idOfChanger = result.get<int>("Id of changer");
 
 		index++;
 	}
@@ -306,9 +306,9 @@ void insertUser(nanodbc::connection conn, USER* users, int& index)
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
     INSERT INTO
     [Team Management].dbo.Users
-    (Username, [Password], [First Name], [Last Name], [Date of creation], [Id of creator], [Date of last change], [Id of changer], [isAdmin])
+    (Username, [Password], [First Name], [Last Name], [Id of creator], [Id of changer], [isAdmin])
     VALUES
-    (? ? ? ? ? ? ? ? ?)
+    (?, ?, ?, ?, ?, ?, ?)
     )"));
 
 	cout << "Username: ";
@@ -327,24 +327,172 @@ void insertUser(nanodbc::connection conn, USER* users, int& index)
 	users[index].lastName = cinText();
 	statement.bind(3, users[index].lastName.c_str());
 
-	cout << "Date of creation: ";
-	users[index].dateOfCreation = cinText();
-	statement.bind(4, users[index].dateOfCreation.c_str());
-
 	cout << "Id of creator: ";
 	users[index].idOfCreator = cinInt();
-	statement.bind(5, &users[index].idOfCreator);
-
-	cout << "Date of last change: ";
-	users[index].dateOfLastChange = cinText();
-	statement.bind(6, users[index].dateOfLastChange.c_str());
+	statement.bind(4, &users[index].idOfCreator);
 
 	cout << "Id of last changer: ";
 	users[index].idOfChanger = cinInt();
-	statement.bind(7, &users[index].idOfChanger);
+	statement.bind(5, &users[index].idOfChanger);
+
+	int a = 0;
+	statement.bind(6, &a);
 
 	execute(statement);
+
+	getUserFromDatabase(conn, users, index);
+
+	cout << endl;
 }
+
+void insertTeam(nanodbc::connection conn, TEAM* teams, int& index)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    INSERT INTO
+    [Team Management].dbo.Teams
+    (Title, [Id of creator], [Id of changer])
+    VALUES
+    (?, ?, ?)
+    )"));
+
+	cout << "Title: ";
+	teams[index].title = cinText();
+	statement.bind(0, teams[index].title.c_str());
+
+	cout << "Id of creator: ";
+	teams[index].idOfCreator = cinInt();
+	statement.bind(1, &teams[index].idOfCreator);
+
+	cout << "Id of last changer: ";
+	teams[index].idOfChanger = cinInt();
+	statement.bind(2, &teams[index].idOfChanger);
+
+	execute(statement);
+
+	getTeamFromDatabase(conn, teams, index);
+
+	cout << endl;
+}
+
+void insertProject(nanodbc::connection conn, PROJECT* projects, int& index)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    INSERT INTO
+    [Team Management].dbo.Projects
+    (Title, Description, [Id of creator], [Id of changer])
+    VALUES
+    (?, ?, ?, ?)
+    )"));
+
+	cout << "Title: ";
+	projects[index].title = cinText();
+	statement.bind(0, projects[index].title.c_str());
+
+	cout << "Description: ";
+	projects[index].description = cinText();
+	statement.bind(1, projects[index].description.c_str());
+
+	cout << "Id of creator: ";
+	projects[index].idOfCreator = cinInt();
+	statement.bind(2, &projects[index].idOfCreator);
+
+	cout << "Id of last changer: ";
+	projects[index].idOfChanger = cinInt();
+	statement.bind(3, &projects[index].idOfChanger);
+
+	execute(statement);
+
+	getProjectFromDatabase(conn, projects, index);
+
+	cout << endl;
+}
+
+void insertTask(nanodbc::connection conn, TASK* tasks, int& index)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    INSERT INTO
+    [Team Management].dbo.Tasks
+    ([Id of Project], [Id of Assignee], Title, Description, Status, [Id of creator], [Id of changer])
+    VALUES
+    (?, ?, ?, ?, ?, ?, ?)
+    )"));
+
+
+	cout << "Title: ";
+	tasks[index].title = cinText();
+	statement.bind(2, tasks[index].title.c_str());
+
+	cout << "Description: ";
+	tasks[index].description = cinText();
+	statement.bind(3, tasks[index].description.c_str());
+
+	cout << "Id of project: ";
+	tasks[index].idOfProject = cinInt();
+	statement.bind(0, &tasks[index].idOfProject);
+
+	cout << "Id of assignee: ";
+	tasks[index].idOfAssignee = cinInt();
+	statement.bind(1, &tasks[index].idOfAssignee);
+
+	cout << "Status (0 - Pending / 1 - In progress / 2 - Completed): ";
+	int task;
+	task = cinInt();
+	if (task == 0)
+		tasks[index].status = status::pending;
+	else if (task == 1)
+		tasks[index].status = status::inProgress;
+	else if (task == 2)
+		tasks[index].status = status::completed;
+	statement.bind(4, &task);
+
+	cout << "Id of creator: ";
+	tasks[index].idOfCreator = cinInt();
+	statement.bind(5, &tasks[index].idOfCreator);
+
+	cout << "Id of last changer: ";
+	tasks[index].idOfChanger = cinInt();
+	statement.bind(6, &tasks[index].idOfChanger);
+
+	execute(statement);
+
+	getTaskFromDatabase(conn, tasks, index);
+
+	cout << endl;
+}
+
+void insertLog(nanodbc::connection conn, LOG* logs, int& index)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    INSERT INTO
+    [Team Management].dbo.Logs
+    ([Id of Task], [Id of User], Time)
+    VALUES
+    (?, ?, ?)
+    )"));
+
+	cout << "Id of Task: ";
+	logs[index].idOfTask = cinInt();
+	statement.bind(0, &logs[index].idOfTask);
+
+	cout << "Id of User: ";
+	logs[index].idOfUser = cinInt();
+	statement.bind(1, &logs[index].idOfUser);
+
+	cout << "Time spent (in hours): ";
+	logs[index].time = cinInt();
+	statement.bind(2, &logs[index].time);
+
+	execute(statement);
+
+	getLogFromDatabase(conn, logs, index);
+
+	cout << endl;
+}
+
 
 // function that asks the user if they want to return to the main menu
 bool returnBack()
@@ -696,11 +844,7 @@ int main()
 			getLogFromDatabase(conn, logs, i);
 		}
 
-		
-
 		displayMainMenu(users, userIndex, teams, teamIndex, projects, projectIndex, tasks, taskIndex, logs, logIndex, conn);
-
-		//insertUser(conn, users, userIndex);
 
 		return EXIT_SUCCESS;
 	}
