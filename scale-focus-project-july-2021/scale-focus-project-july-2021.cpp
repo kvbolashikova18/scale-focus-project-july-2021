@@ -440,15 +440,15 @@ void insertTask(nanodbc::connection conn, TASK* tasks, int& index)
 	statement.bind(1, &tasks[index].idOfAssignee);
 
 	cout << "Status (0 - Pending / 1 - In progress / 2 - Completed): ";
-	int task;
-	task = cinInt();
-	if (task == 0)
+	int status;
+	status = cinInt();
+	if (status == 0)
 		tasks[index].status = status::pending;
-	else if (task == 1)
+	else if (status == 1)
 		tasks[index].status = status::inProgress;
-	else if (task == 2)
+	else if (status == 2)
 		tasks[index].status = status::completed;
-	statement.bind(4, &task);
+	statement.bind(4, &status);
 
 	cout << "Id of creator: ";
 	tasks[index].idOfCreator = cinInt();
@@ -491,6 +491,270 @@ void insertLog(nanodbc::connection conn, LOG* logs, int& index)
 	execute(statement);
 
 	getLogFromDatabase(conn, logs, index);
+
+	cout << endl;
+}
+
+
+void editUser(nanodbc::connection conn, USER* users, int& index)
+{
+	nanodbc::statement statement(conn);
+
+	cout << "Enter the ID of the user you want to edit: ";
+	int id = cinInt();
+
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+	int position = 0;
+
+	for (int i = 0; i < index; i++)
+	{
+		if (users[i].id == id)
+		{
+			position = i;
+		}
+	}
+
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    UPDATE [Team Management].dbo.Users
+    SET
+     Username = ?
+    ,Password = ?
+    ,[First Name] = ?
+    ,[Last Name] = ?
+    ,[Date of last change] = GETDATE()
+    ,[Id of changer] = ?
+     WHERE Id = ?;
+    )"));
+
+	cout << "New username: ";
+	users[position].username = cinText();
+	statement.bind(0, users[position].username.c_str());
+
+	cout << "New password: ";
+	users[position].password = cinText();
+	statement.bind(1, users[position].password.c_str());
+
+	cout << "New first name: ";
+	users[position].firstName = cinText();
+	statement.bind(2, users[position].firstName.c_str());
+
+	cout << "New last name: ";
+	users[position].lastName = cinText();
+	statement.bind(3, users[position].lastName.c_str());
+
+	cout << "Id of last changer: ";
+	users[position].idOfChanger = cinInt();
+	statement.bind(4, &users[position].idOfChanger);
+
+	statement.bind(5, &id);
+
+	execute(statement);
+
+	cout << endl;
+}
+
+void editTeam(nanodbc::connection conn, TEAM* teams, int& index)
+{
+	nanodbc::statement statement(conn);
+
+	cout << "Enter the ID of the team you want to edit: ";
+	int id = cinInt();
+
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+	int position = 0;
+
+	for (int i = 0; i < index; i++)
+	{
+		if (teams[i].id == id)
+		{
+			position = i;
+		}
+	}
+
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    UPDATE [Team Management].dbo.Teams
+    SET
+     Title = ?
+    ,[Date of last change] = GETDATE()
+    ,[Id of changer] = ?
+     WHERE Id = ?;
+    )"));
+
+	cout << "New title: ";
+	teams[position].title = cinText();
+	statement.bind(0, teams[position].title.c_str());
+
+	cout << "Id of last changer: ";
+	teams[position].idOfChanger = cinInt();
+	statement.bind(1, &teams[position].idOfChanger);
+
+	statement.bind(2, &id);
+
+	execute(statement);
+
+	cout << endl;
+}
+
+void editProject(nanodbc::connection conn, PROJECT* projects, int& index)
+{
+	nanodbc::statement statement(conn);
+
+	cout << "Enter the ID of the project you want to edit: ";
+	int id = cinInt();
+
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+	int position = 0;
+
+	for (int i = 0; i < index; i++)
+	{
+		if (projects[i].id == id)
+		{
+			position = i;
+		}
+	}
+
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    UPDATE [Team Management].dbo.Projects
+    SET
+     Title = ?
+    ,Description = ?
+    ,[Date of last change] = GETDATE()
+    ,[Id of changer] = ?
+     WHERE Id = ?;
+    )"));
+
+	cout << "New title: ";
+	projects[position].title = cinText();
+	statement.bind(0, projects[position].title.c_str());
+
+	cout << "New description: ";
+	projects[position].description = cinText();
+	statement.bind(1, projects[position].description.c_str());
+
+	cout << "Id of last changer: ";
+	projects[position].idOfChanger = cinInt();
+	statement.bind(2, &projects[position].idOfChanger);
+
+	statement.bind(3, &id);
+
+	execute(statement);
+
+	cout << endl;
+}
+
+void editTask(nanodbc::connection conn, TASK* tasks, int& index)
+{
+	nanodbc::statement statement(conn);
+
+	cout << "Enter the ID of the task you want to edit: ";
+	int id = cinInt();
+
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+	int position = 0;
+
+	for (int i = 0; i < index; i++)
+	{
+		if (tasks[i].id == id)
+		{
+			position = i;
+		}
+	}
+
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    UPDATE [Team Management].dbo.Tasks
+    SET
+    [Id of Assignee] = ?
+    ,Title = ?
+    ,Description = ?
+    ,Status = ?
+    ,[Date of last change] = GETDATE()
+    ,[Id of changer] = ?
+     WHERE Id = ?;
+    )"));
+
+	cout << "New title: ";
+	tasks[position].title = cinText();
+	statement.bind(1, tasks[position].title.c_str());
+
+	cout << "New description: ";
+	tasks[position].description = cinText();
+	statement.bind(2, tasks[position].description.c_str());
+
+	cout << "New status (0 - Pending / 1 - In progress / 2 - Completed): ";
+	int status;
+	status = cinInt();
+	if (status == 0)
+		tasks[position].status = status::pending;
+	else if (status == 1)
+		tasks[position].status = status::inProgress;
+	else if (status == 2)
+		tasks[position].status = status::completed;
+	statement.bind(3, &status);
+
+	cout << "Id of new assignee: ";
+	tasks[position].idOfAssignee = cinInt();
+	statement.bind(0, &tasks[position].idOfAssignee);
+
+	cout << "Id of last changer: ";
+	tasks[position].idOfChanger = cinInt();
+	statement.bind(4, &tasks[position].idOfChanger);
+
+	statement.bind(5, &id);
+
+	execute(statement);
+
+	cout << endl;
+}
+
+void editLog(nanodbc::connection conn, LOG* logs, int& index)
+{
+	nanodbc::statement statement(conn);
+
+	cout << "Enter the ID of the log you want to edit: ";
+	int id = cinInt();
+
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+	int position = 0;
+
+	for (int i = 0; i < index; i++)
+	{
+		if (logs[i].id == id)
+		{
+			position = i;
+		}
+	}
+
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    UPDATE [Team Management].dbo.Logs
+    SET
+     [Id of Task] = ?
+    ,[Id of User] = ?
+    ,Time = ?
+    ,Date = GETDATE()
+     WHERE Id = ?;
+    )"));
+
+
+	cout << "Id of new task: ";
+	logs[position].idOfTask = cinInt();
+	statement.bind(0, &logs[position].idOfTask);
+
+	cout << "Id of new user: ";
+	logs[position].idOfUser = cinInt();
+	statement.bind(1, &logs[position].idOfUser);
+
+	cout << "Time spent (in hours): ";
+	logs[position].time = cinInt();
+	statement.bind(2, &logs[position].time);
+
+	statement.bind(3, &id);
+
+	execute(statement);
 
 	cout << endl;
 }
@@ -853,6 +1117,7 @@ int main()
 		}
 
 		displayMainMenu(users, userIndex, teams, teamIndex, projects, projectIndex, tasks, taskIndex, logs, logIndex, conn);
+		
 
 		return EXIT_SUCCESS;
 	}
