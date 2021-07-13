@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <conio.h>
+#include <ios> //used to get stream size
+#include <limits> //used to get numeric limits
 using namespace std;
 
 // defining colors used for output design
@@ -578,6 +580,8 @@ void displayProjectsMenu(PROJECT* projects, int& projectIndex, nanodbc::connecti
 			choice = cinInt();
 		}
 
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 		system("cls");
 
 		switch (choice)
@@ -590,7 +594,7 @@ void displayProjectsMenu(PROJECT* projects, int& projectIndex, nanodbc::connecti
 			cont = returnBack();
 			break;
 		case 2:
-			//
+			insertProject(conn, projects, projectIndex);
 			cont = returnBack();
 			break;
 		case 3:
@@ -646,6 +650,8 @@ void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn)
 			choice = cinInt();
 		}
 
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 		system("cls");
 
 		switch (choice)
@@ -658,7 +664,7 @@ void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn)
 			cont = returnBack();
 			break;
 		case 2:
-			//
+			insertTeam(conn, teams, teamIndex);
 			cont = returnBack();
 			break;
 		case 3:
@@ -713,6 +719,8 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn)
 			choice = cinInt();
 		}
 
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 		system("cls");
 
 		switch (choice)
@@ -725,7 +733,7 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn)
 			cont = returnBack();
 			break;
 		case 2:
-		    //
+			insertUser(conn, users, userIndex);
 			cont = returnBack();
 			break;
 		case 3:
