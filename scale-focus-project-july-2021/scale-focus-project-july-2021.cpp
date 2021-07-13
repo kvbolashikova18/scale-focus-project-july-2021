@@ -862,7 +862,7 @@ void displayProjectsMenu(PROJECT* projects, int& projectIndex, nanodbc::connecti
 			cont = returnBack();
 			break;
 		case 3:
-			//
+			editProject(conn, projects, projectIndex);
 			cont = returnBack();
 			break;
 		case 4:
@@ -932,7 +932,7 @@ void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn)
 			cont = returnBack();
 			break;
 		case 3:
-			//
+			editTeam(conn, teams, teamIndex);
 			cont = returnBack();
 			break;
 		case 4:
@@ -1001,7 +1001,7 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn)
 			cont = returnBack();
 			break;
 		case 3:
-			//
+			editUser(conn, users, userIndex);
 			cont = returnBack();
 			break;
 		case 4:
