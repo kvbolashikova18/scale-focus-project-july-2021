@@ -405,7 +405,7 @@ void insertUser(nanodbc::connection conn, USER* users, int& index)
 
 	getUserFromDatabase(conn, users, index);
 
-	cout << endl;
+	cout << GREEN << "User has been successfully added" <<  RESET << endl;
 }
 
 void insertTeam(nanodbc::connection conn, TEAM* teams, int& index)
@@ -435,7 +435,7 @@ void insertTeam(nanodbc::connection conn, TEAM* teams, int& index)
 
 	getTeamFromDatabase(conn, teams, index);
 
-	cout << endl;
+	cout << GREEN << "Team has been successfully added" << RESET << endl;
 }
 
 void insertProject(nanodbc::connection conn, PROJECT* projects, int& index)
@@ -469,7 +469,7 @@ void insertProject(nanodbc::connection conn, PROJECT* projects, int& index)
 
 	getProjectFromDatabase(conn, projects, index);
 
-	cout << endl;
+	cout << GREEN << "Project has been successfully added" << RESET << endl;
 }
 
 void insertTask(nanodbc::connection conn, TASK* tasks, int& index)
@@ -523,7 +523,7 @@ void insertTask(nanodbc::connection conn, TASK* tasks, int& index)
 
 	getTaskFromDatabase(conn, tasks, index);
 
-	cout << endl;
+	cout << GREEN << "Task has been successfully added" << RESET << endl;
 }
 
 void insertLog(nanodbc::connection conn, LOG* logs, int& index)
@@ -553,7 +553,7 @@ void insertLog(nanodbc::connection conn, LOG* logs, int& index)
 
 	getLogFromDatabase(conn, logs, index);
 
-	cout << endl;
+	cout << GREEN << "Log has been successfully added" << RESET << endl;
 }
 
 
@@ -612,7 +612,7 @@ void editUser(nanodbc::connection conn, USER* users, int& index)
 
 	execute(statement);
 
-	cout << endl;
+	cout << GREEN << "User has been successfully updated" << RESET << endl;
 }
 
 void editTeam(nanodbc::connection conn, TEAM* teams, int& index)
@@ -655,7 +655,7 @@ void editTeam(nanodbc::connection conn, TEAM* teams, int& index)
 
 	execute(statement);
 
-	cout << endl;
+	cout << GREEN << "Team has been successfully updated" << RESET << endl;
 }
 
 void editProject(nanodbc::connection conn, PROJECT* projects, int& index)
@@ -703,7 +703,7 @@ void editProject(nanodbc::connection conn, PROJECT* projects, int& index)
 
 	execute(statement);
 
-	cout << endl;
+	cout << GREEN << "Project has been successfully updated" << RESET << endl;
 }
 
 void editTask(nanodbc::connection conn, TASK* tasks, int& index)
@@ -768,7 +768,7 @@ void editTask(nanodbc::connection conn, TASK* tasks, int& index)
 
 	execute(statement);
 
-	cout << endl;
+	cout << GREEN << "Task has been successfully updated" << RESET << endl;
 }
 
 void editLog(nanodbc::connection conn, LOG* logs, int& index)
@@ -817,7 +817,7 @@ void editLog(nanodbc::connection conn, LOG* logs, int& index)
 
 	execute(statement);
 
-	cout << endl;
+	cout << GREEN << "Log has been successfully updated" << RESET << endl;
 }
 
 
@@ -1427,7 +1427,7 @@ int main()
 	TASK* tasks = new TASK[20];
 	LOG* logs = new LOG[100];
 
-	int userIndex = 4, teamIndex = 3, projectIndex = 3, taskIndex = 2, logIndex = 2;
+	int userIndex = 5, teamIndex = 3, projectIndex = 3, taskIndex = 2, logIndex = 2;
 	USER currentUser;
 	
 
