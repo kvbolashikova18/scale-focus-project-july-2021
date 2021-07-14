@@ -419,12 +419,10 @@ void insertUser(nanodbc::connection conn, USER* users, int& index)
 	users[index].lastName = cinText();
 	statement.bind(3, users[index].lastName.c_str());
 
-	cout << "Id of creator: ";
-	users[index].idOfCreator = cinInt();
+	users[index].idOfCreator = 10;
 	statement.bind(4, &users[index].idOfCreator);
 
-	cout << "Id of last changer: ";
-	users[index].idOfChanger = cinInt();
+	users[index].idOfChanger = 10;
 	statement.bind(5, &users[index].idOfChanger);
 
 	int a = 0;
@@ -452,12 +450,10 @@ void insertTeam(nanodbc::connection conn, TEAM* teams, int& index)
 	teams[index].title = cinText();
 	statement.bind(0, teams[index].title.c_str());
 
-	cout << "Id of creator: ";
-	teams[index].idOfCreator = cinInt();
+	teams[index].idOfCreator = 10;
 	statement.bind(1, &teams[index].idOfCreator);
 
-	cout << "Id of last changer: ";
-	teams[index].idOfChanger = cinInt();
+	teams[index].idOfChanger = 10;
 	statement.bind(2, &teams[index].idOfChanger);
 
 	execute(statement);
@@ -635,8 +631,7 @@ void editUser(nanodbc::connection conn, USER* users, int& index)
 	users[position].lastName = cinText();
 	statement.bind(3, users[position].lastName.c_str());
 
-	cout << "Id of last changer: ";
-	users[position].idOfChanger = cinInt();
+	users[position].idOfChanger = 10;
 	statement.bind(4, &users[position].idOfChanger);
 
 	statement.bind(5, &id);
@@ -678,8 +673,7 @@ void editTeam(nanodbc::connection conn, TEAM* teams, int& index)
 	teams[position].title = cinText();
 	statement.bind(0, teams[position].title.c_str());
 
-	cout << "Id of last changer: ";
-	teams[position].idOfChanger = cinInt();
+	teams[position].idOfChanger = 10;
 	statement.bind(1, &teams[position].idOfChanger);
 
 	statement.bind(2, &id);
