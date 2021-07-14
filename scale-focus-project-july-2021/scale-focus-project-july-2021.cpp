@@ -184,6 +184,47 @@ void displayLog(LOG* logs, int index)
 }
 
 
+void displayAllUsers(USER* users, int index)
+{
+	for (int i = 0; i < index; i++)
+	{
+		displayUser(users, i);
+	}
+}
+
+void displayAllTeams(TEAM* teams, int index)
+{
+	for (int i = 0; i < index; i++)
+	{
+		displayTeam(teams, i);
+	}
+}
+
+void displayAllProjects(PROJECT* projects, int index)
+{
+	for (int i = 0; i < index; i++)
+	{
+		displayProject(projects, i);
+	}
+}
+
+void displayAllTasks(TASK* tasks, int index)
+{
+	for (int i = 0; i < index; i++)
+	{
+		displayTask(tasks, i);
+	}
+}
+
+void displayAllLogs(LOG* logs, int index)
+{
+	for (int i = 0; i < index; i++)
+	{
+		displayLog(logs, i);
+	}
+}
+
+
 void getUserFromDatabase(nanodbc::connection conn, USER* users, int& index)
 {
 	nanodbc::statement statement(conn);
@@ -851,10 +892,7 @@ void displayProjectsMenu(PROJECT* projects, int& projectIndex, nanodbc::connecti
 		switch (choice)
 		{
 		case 1:
-			for (int i = 0; i < projectIndex; i++)
-			{
-				displayProject(projects, i);
-			}
+			displayAllProjects(projects, projectIndex);
 			cont = returnBack();
 			break;
 		case 2:
@@ -921,10 +959,7 @@ void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn)
 		switch (choice)
 		{
 		case 1:
-			for (int i = 0; i < teamIndex; i++)
-			{
-				displayTeam(teams, i);
-			}
+			displayAllTeams(teams, teamIndex);
 			cont = returnBack();
 			break;
 		case 2:
@@ -990,10 +1025,7 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn)
 		switch (choice)
 		{
 		case 1:
-			for (int i = 0; i < userIndex; i++)
-			{
-				displayUser(users, i);
-			}
+			displayAllUsers(users, userIndex);
 			cont = returnBack();
 			break;
 		case 2:
