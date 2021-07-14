@@ -45,6 +45,7 @@ struct TEAM
 {
 	int id = 0;
 	string title = "";
+	int idOfProject = 0;
 	string dateOfCreation = "";
 	int idOfCreator = 0;
 	string dateOfLastChange = "";
@@ -1202,7 +1203,7 @@ void displayTasksMenu(TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nan
 	}
 }
 
-void displayProjectsMenu(PROJECT* projects, int& projectIndex, TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn)
+void displayProjectsMenu(PROJECT* projects, int& projectIndex, TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn, USER currentUser)
 {
 	bool cont = true;
 
@@ -1278,7 +1279,7 @@ void displayProjectsMenu(PROJECT* projects, int& projectIndex, TASK* tasks, int&
 	}
 }
 
-void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn)
+void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn, USER currentUser)
 {
 	bool cont = true;
 
@@ -1323,18 +1324,29 @@ void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn)
 			cont = returnBack();
 			break;
 		case 2:
-			insertTeam(conn, teams, teamIndex);
+			if (currentUser.username == "admin")
+				insertTeam(conn, teams, teamIndex);
+			else
+				cout << RED << "\nYou don't have permission for this operation" << RESET << endl;
 			cont = returnBack();
 			break;
 		case 3:
-			editTeam(conn, teams, teamIndex);
+			if (currentUser.username == "admin")
+				editTeam(conn, teams, teamIndex);
+			else
+				cout << RED << "\nYou don't have permission for this operation" << RESET << endl;
 			cont = returnBack();
 			break;
 		case 4:
-			int id;
-			cout << "Enter the ID of the team you want to remove: ";
-			cin >> id;
-			deleteTeam(conn, teams, id, teamIndex);
+			if (currentUser.username == "admin")
+			{
+				int id;
+				cout << "Enter the ID of the team you want to remove: ";
+				cin >> id;
+				deleteTeam(conn, teams, id, teamIndex);
+			}
+			else
+				cout << RED << "\nYou don't have permission for this operation" << RESET << endl;
 			cont = returnBack();
 			break;
 		case 5:
@@ -1348,7 +1360,7 @@ void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn)
 	}
 }
 
-void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn)
+void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn, USER currentUser)
 {
 	bool cont = true;
 
@@ -1357,19 +1369,19 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn)
 		int choice = 0;
 
 		cout << endl;
-		spaces(1);  cout << "  _    _                   " << endl;
-		cout << " | |  | |                  " << endl;
-		cout << " | |  | |___  ___ _ __ ___ " << endl;
-		cout << " | |  | / __|/ _ \\ '__/ __|" << endl;
-		cout << " | |__| \\__ \\  __/ |  \\__ \\" << endl;
-		cout << "  \\____/|___/\\___|_|  |___/" << endl << endl;
-		cout << " =======================================" << endl;
-		cout << "|" << " 1)" << YELLOW << " Show a list of all users" << RESET << "           |" << endl;
-		cout << "|" << " 2)" << GREEN << " Create a user" << RESET << "                      |" << endl;
-		cout << "|" << " 3)" << CYAN << " Edit a user" << RESET << "                        |" << endl;
-		cout << "|" << " 4)" << RED << " Delete a user" << RESET << "                      |" << endl;
-		cout << "|" << " 5)" << GRAY << " Return back to the Main Menu" << RESET << "       |" << endl;
-		cout << " =======================================" << endl << endl;
+		spaces(30); cout << "  _    _                   " << endl;
+		spaces(30); cout << " | |  | |                  " << endl;
+		spaces(30); cout << " | |  | |___  ___ _ __ ___ " << endl;
+		spaces(30); cout << " | |  | / __|/ _ \\ '__/ __|" << endl;
+		spaces(30); cout << " | |__| \\__ \\  __/ |  \\__ \\" << endl;
+		spaces(30); cout << "  \\____/|___/\\___|_|  |___/" << endl << endl << endl;
+		spaces(23); cout << " =======================================" << endl;
+		spaces(23); cout << "|" << " 1)" << YELLOW << " Show a list of all users" << RESET << "           |" << endl;
+		spaces(23); cout << "|" << " 2)" << GREEN << " Create a user" << RESET << "                      |" << endl;
+		spaces(23); cout << "|" << " 3)" << CYAN << " Edit a user" << RESET << "                        |" << endl;
+		spaces(23); cout << "|" << " 4)" << RED << " Delete a user" << RESET << "                      |" << endl;
+		spaces(23); cout << "|" << " 5)" << GRAY << " Return back to the Main Menu" << RESET << "       |" << endl;
+		spaces(23); cout << " =======================================" << endl << endl;
 
 		cout << "Enter your choice: ";
 		choice = cinInt();
@@ -1392,18 +1404,29 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn)
 			cont = returnBack();
 			break;
 		case 2:
-			insertUser(conn, users, userIndex);
+			if (currentUser.username == "admin")
+				insertUser(conn, users, userIndex);
+			else
+				cout << RED << "\nYou don't have permission for this operation" << RESET << endl;
 			cont = returnBack();
 			break;
 		case 3:
-			editUser(conn, users, userIndex);
+			if (currentUser.username == "admin")
+				editUser(conn, users, userIndex);
+			else
+				cout << RED << "\nYou don't have permission for this operation" << RESET << endl;
 			cont = returnBack();
 			break;
 		case 4:
-			int id;
-			cout << "Enter the ID of the user you want to remove: ";
-			cin >> id;
-			deleteUser(conn, users, id, userIndex);
+			if (currentUser.username == "admin")
+			{
+				int id;
+				cout << "Enter the ID of the user you want to remove: ";
+				cin >> id;
+				deleteUser(conn, users, id, userIndex);
+			}
+			else
+				cout << RED << "\nYou don't have permission for this operation" << RESET << endl;
 			cont = returnBack();
 			break;
 		case 5:
@@ -1455,13 +1478,13 @@ void displayMainMenu(USER* users, int& userIndex, TEAM* teams, int& teamIndex, P
 		switch (choice)
 		{
 		case 1:
-			displayUsersMenu(users, userIndex, conn);
+			displayUsersMenu(users, userIndex, conn, currentUser);
 			break;
 		case 2:
-			displayTeamsMenu(teams, teamIndex, conn);
+			displayTeamsMenu(teams, teamIndex, conn, currentUser);
 			break;
 		case 3:
-			displayProjectsMenu(projects, projectIndex, tasks, taskIndex, logs, logIndex, conn);
+			displayProjectsMenu(projects, projectIndex, tasks, taskIndex, logs, logIndex, conn, currentUser);
 			break;
 		case 4:
 			exit(0);
