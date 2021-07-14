@@ -134,13 +134,16 @@ void displayWelcome()
 	spaces(17); cout << "     \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|" << endl << endl;
 }
 
-void displayUser(USER* users, int index)
+void displayUser(USER* users, int index, USER currentUser)
 {
 	if (users[index].isDeleted == false)
 	{
 		cout << GRAY << "ID: " << RESET << users[index].id << endl;
 		cout << "Username: " << users[index].username << endl;
-		cout << "Password: " << users[index].password << endl;
+		if (currentUser.username == "admin")
+		{
+			cout << "Password: " << users[index].password << endl;
+		}
 		cout << "First name: " << users[index].firstName << endl;
 		cout << "Last name: " << users[index].lastName << endl;
 		cout << "Date of creation: " << users[index].dateOfCreation << endl;
@@ -222,11 +225,11 @@ void displayLog(LOG* logs, int index)
 }
 
 
-void displayAllUsers(USER* users, int index)
+void displayAllUsers(USER* users, int index, USER currentUser)
 {
 	for (int i = 0; i < index; i++)
 	{
-		displayUser(users, i);
+		displayUser(users, i, currentUser);
 	}
 }
 
@@ -1400,7 +1403,7 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn, USE
 		switch (choice)
 		{
 		case 1:
-			displayAllUsers(users, userIndex);
+			displayAllUsers(users, userIndex, currentUser);
 			cont = returnBack();
 			break;
 		case 2:
