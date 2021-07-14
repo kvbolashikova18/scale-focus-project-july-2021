@@ -115,6 +115,23 @@ string cinText()
 	return text;
 }
 
+void spaces(int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << " ";
+	}
+}
+
+void displayWelcome()
+{
+	spaces(17); cout << " __          __  _                          " << endl;
+	spaces(17); cout << " \\ \\        / / | |                         " << endl;
+	spaces(17); cout << "  \\ \\  /\\  / /__| | ___ ___  _ __ ___   ___ " << endl;
+	spaces(17); cout << "   \\ \\/  \\/ / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\" << endl;
+	spaces(17); cout << "    \\  /\\  /  __/ | (_| (_) | | | | | |  __/" << endl;
+	spaces(17); cout << "     \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|" << endl << endl;
+}
 
 void displayUser(USER* users, int index)
 {
@@ -1007,7 +1024,7 @@ bool returnBack()
 	return false;
 }
 
-/*string enterHiddenText()
+string enterHiddenText()
 {
 	string password = "";
 	char symbol = ' ';
@@ -1023,11 +1040,18 @@ bool returnBack()
 	cout << endl;
   
 	return password;
-}*/
+}
 
-void logIn()
+void logIn(string& username, string& password)
 {
+	cout << "                                   LOG IN" << endl;
+	cout << "Hi, in order to proceed with the program, please enter your username and password!" << endl << endl;
 
+	cout << "Username: ";
+	getline(cin, username);
+
+	cout << "Password: ";
+	password = enterHiddenText();
 }
 
 void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn)
@@ -1333,7 +1357,7 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn)
 		int choice = 0;
 
 		cout << endl;
-		cout << "  _    _                   " << endl;
+		spaces(1);  cout << "  _    _                   " << endl;
 		cout << " | |  | |                  " << endl;
 		cout << " | |  | |___  ___ _ __ ___ " << endl;
 		cout << " | |  | / __|/ _ \\ '__/ __|" << endl;
@@ -1389,31 +1413,32 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn)
 	}
 }
 
-void displayMainMenu(USER* users, int& userIndex, TEAM* teams, int& teamIndex, PROJECT* projects, int& projectIndex, TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn)
+void displayMainMenu(USER* users, int& userIndex, TEAM* teams, int& teamIndex, PROJECT* projects, int& projectIndex, TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn, USER currentUser)
 {
+
 	int choice = 0;
 
 	while (choice != 4)
 	{
 		cout << endl;
 
-		cout << " __  __       _         __  __                      " << endl;
-		cout << "|  \\/  |     (_)       |  \\/  |                   " << endl;
-		cout << "| \\  / | __ _ _ _ __   | \\  / | ___ _ __  _   _   " << endl;
-		cout << "| |\\/| |/ _` | | '_ \\  | |\\/| |/ _ \\ '_ \\| | | |" << endl;
-		cout << "| |  | | (_| | | | | | | |  | |  __/ | | | |_| |    " << endl;
-		cout << "|_|  |_|\\__,_|_|_| |_| |_|  |_|\\___|_| |_|\\__,_| " << endl;
+		spaces(17);  cout << " __  __       _          __  __                      " << endl;
+		spaces(17);  cout << "|  \\/  |     (_)        |  \\/  |                   " << endl;
+		spaces(17);  cout << "| \\  / | __ _ _ _ __    | \\  / | ___ _ __  _   _   " << endl;
+		spaces(17);  cout << "| |\\/| |/ _` | | '_ \\   | |\\/| |/ _ \\ '_ \\| | | |" << endl;
+		spaces(17);  cout << "| |  | | (_| | | | | |  | |  | |  __/ | | | |_| |    " << endl;
+		spaces(17);  cout << "|_|  |_|\\__,_|_|_| |_|  |_|  |_|\\___|_| |_|\\__,_| " << endl;
 
 		cout << endl;
 		cout << endl;
 
-		cout << "Which set of data would you like to work with?" << endl << endl;
-		cout << " =====================" << endl;
-		cout << "|" << " 1)" << YELLOW << " Users" << RESET << "            |" << endl;
-		cout << "|" << " 2)" << GREEN << " Teams" << RESET << "            |" << endl;
-		cout << "|" << " 3)" << CYAN << " Projects" << RESET << "         |" << endl;
-		cout << "|" << " 4)" << GRAY << " Exit" << RESET << "             |" << endl;
-		cout << " =====================" << endl;
+		spaces(19);  cout << "Which set of data would you like to work with?" << endl << endl;
+		spaces(29);  cout << " =====================" << endl;
+		spaces(29);  cout << "|" << " 1)" << YELLOW << " Users" << RESET << "            |" << endl;
+		spaces(29);  cout << "|" << " 2)" << GREEN << " Teams" << RESET << "            |" << endl;
+		spaces(29);  cout << "|" << " 3)" << CYAN << " Projects" << RESET << "         |" << endl;
+		spaces(29);  cout << "|" << " 4)" << GRAY << " Exit" << RESET << "             |" << endl;
+		spaces(29);  cout << " =====================" << endl;
 		cout << endl;
 		cout << "Enter your choice: ";
 		choice = cinInt();
@@ -1449,9 +1474,9 @@ void displayMainMenu(USER* users, int& userIndex, TEAM* teams, int& teamIndex, P
 int main()
 {
 	USER* users = new USER[100];
-	TEAM* teams = new TEAM[20];
-	PROJECT* projects = new PROJECT[20];
-	TASK* tasks = new TASK[20];
+	TEAM* teams = new TEAM[50];
+	PROJECT* projects = new PROJECT[50];
+	TASK* tasks = new TASK[50];
 	LOG* logs = new LOG[100];
 
 	int userIndex = 5, teamIndex = 3, projectIndex = 3, taskIndex = 2, logIndex = 2;
@@ -1487,7 +1512,12 @@ int main()
 			getLogFromDatabase(conn, logs, i);
 		}
 
-		displayMainMenu(users, userIndex, teams, teamIndex, projects, projectIndex, tasks, taskIndex, logs, logIndex, conn);
+		displayWelcome();
+		logIn(currentUser.username, currentUser.password);
+
+		system("cls");
+		
+		displayMainMenu(users, userIndex, teams, teamIndex, projects, projectIndex, tasks, taskIndex, logs, logIndex, conn, currentUser);
 
 		return EXIT_SUCCESS;
 	}
