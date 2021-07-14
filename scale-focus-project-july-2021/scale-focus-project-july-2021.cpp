@@ -38,6 +38,7 @@ struct USER
 	string dateOfLastChange = "";
 	int idOfChanger = 0;
 	bool isAdmin = 0;
+	bool isDeleted = 0;
 };
 
 struct TEAM
@@ -48,6 +49,7 @@ struct TEAM
 	int idOfCreator = 0;
 	string dateOfLastChange = "";
 	int idOfChanger = 0;
+	bool isDeleted = 0;
 };
 
 struct PROJECT
@@ -59,6 +61,7 @@ struct PROJECT
 	int idOfCreator = 0;
 	string dateOfLastChange = "";
 	int idOfChanger = 0;
+	bool isDeleted = 0;
 };
 
 struct TASK
@@ -73,6 +76,7 @@ struct TASK
 	int idOfCreator = 0;
 	string dateOfLastChange = "";
 	int idOfChanger = 0;
+	bool isDeleted = 0;
 };
 
 struct LOG
@@ -82,6 +86,7 @@ struct LOG
 	int idOfUser = 0;
 	int time = 0;
 	string date = "";
+	bool isDeleted = 0;
 };
 
 
@@ -113,72 +118,87 @@ string cinText()
 
 void displayUser(USER* users, int index)
 {
-	cout << GRAY << "ID: " << RESET << users[index].id << endl;
-	cout << "Username: " << users[index].username << endl;
-	cout << "Password: " << users[index].password << endl;
-	cout << "First name: " << users[index].firstName << endl;
-	cout << "Last name: " << users[index].lastName << endl;
-	cout << "Date of creation: " << users[index].dateOfCreation << endl;
-	cout << "ID of creator: " << users[index].idOfCreator << endl;
-	cout << "Date of last change: " << users[index].dateOfLastChange << endl;
-	cout << "ID of last changer: " << users[index].idOfChanger << endl;
+	if (users[index].isDeleted == false)
+	{
+		cout << GRAY << "ID: " << RESET << users[index].id << endl;
+		cout << "Username: " << users[index].username << endl;
+		cout << "Password: " << users[index].password << endl;
+		cout << "First name: " << users[index].firstName << endl;
+		cout << "Last name: " << users[index].lastName << endl;
+		cout << "Date of creation: " << users[index].dateOfCreation << endl;
+		cout << "ID of creator: " << users[index].idOfCreator << endl;
+		cout << "Date of last change: " << users[index].dateOfLastChange << endl;
+		cout << "ID of last changer: " << users[index].idOfChanger << endl;
+	}
 
 	cout << endl;
 }
 
 void displayTeam(TEAM* teams, int index)
 {
-	cout << GRAY << "ID: " << RESET << teams[index].id << endl;
-	cout << "Title: " << teams[index].title << endl;
-	cout << "Date of creation: " << teams[index].dateOfCreation << endl;
-	cout << "ID of creator: " << teams[index].idOfCreator << endl;
-	cout << "Date of last change: " << teams[index].dateOfLastChange << endl;
-	cout << "ID of last changer: " << teams[index].idOfChanger << endl;
+	if (teams[index].isDeleted == false)
+	{
+		cout << GRAY << "ID: " << RESET << teams[index].id << endl;
+		cout << "Title: " << teams[index].title << endl;
+		cout << "Date of creation: " << teams[index].dateOfCreation << endl;
+		cout << "ID of creator: " << teams[index].idOfCreator << endl;
+		cout << "Date of last change: " << teams[index].dateOfLastChange << endl;
+		cout << "ID of last changer: " << teams[index].idOfChanger << endl;
+	}
 
 	cout << endl;
 }
 
 void displayProject(PROJECT* projects, int index)
 {
-	cout << GRAY << "ID: " << RESET << projects[index].id << endl;
-	cout << "Title: " << projects[index].title << endl;
-	cout << "Description: " << projects[index].description << endl;
-	cout << "Date of creation: " << projects[index].dateOfCreation << endl;
-	cout << "ID of creator: " << projects[index].idOfCreator << endl;
-	cout << "Date of last change: " << projects[index].dateOfLastChange << endl;
-	cout << "ID of last changer: " << projects[index].idOfChanger << endl;
+	if (projects[index].isDeleted == false)
+	{
+		cout << GRAY << "ID: " << RESET << projects[index].id << endl;
+		cout << "Title: " << projects[index].title << endl;
+		cout << "Description: " << projects[index].description << endl;
+		cout << "Date of creation: " << projects[index].dateOfCreation << endl;
+		cout << "ID of creator: " << projects[index].idOfCreator << endl;
+		cout << "Date of last change: " << projects[index].dateOfLastChange << endl;
+		cout << "ID of last changer: " << projects[index].idOfChanger << endl;
+	}
 
 	cout << endl;
 }
 
 void displayTask(TASK* tasks, int index)
 {
-	cout << GRAY << "ID: " << RESET << tasks[index].id << endl;
-	cout << "ID of project: " << tasks[index].idOfProject << endl;
-	cout << "ID of assignee: " << tasks[index].idOfAssignee << endl;
-	cout << "Title: " << tasks[index].title << endl;
-	cout << "Description: " << tasks[index].description << endl;
-	if (tasks[index].status == status::pending)
-		cout << "Status: pending" << endl;
-	else if (tasks[index].status == status::inProgress)
-		cout << "Status: in progress" << endl;
-	else
-		cout << "Status: completed" << endl;
-	cout << "Date of creation: " << tasks[index].dateOfCreation << endl;
-	cout << "ID of creator: " << tasks[index].idOfCreator << endl;
-	cout << "Date of last change: " << tasks[index].dateOfLastChange << endl;
-	cout << "ID of last changer: " << tasks[index].idOfChanger << endl;
+	if (tasks[index].isDeleted == false)
+	{
+		cout << GRAY << "ID: " << RESET << tasks[index].id << endl;
+		cout << "ID of project: " << tasks[index].idOfProject << endl;
+		cout << "ID of assignee: " << tasks[index].idOfAssignee << endl;
+		cout << "Title: " << tasks[index].title << endl;
+		cout << "Description: " << tasks[index].description << endl;
+		if (tasks[index].status == status::pending)
+			cout << "Status: pending" << endl;
+		else if (tasks[index].status == status::inProgress)
+			cout << "Status: in progress" << endl;
+		else
+			cout << "Status: completed" << endl;
+		cout << "Date of creation: " << tasks[index].dateOfCreation << endl;
+		cout << "ID of creator: " << tasks[index].idOfCreator << endl;
+		cout << "Date of last change: " << tasks[index].dateOfLastChange << endl;
+		cout << "ID of last changer: " << tasks[index].idOfChanger << endl;
+	}
 
 	cout << endl;
 }
 
 void displayLog(LOG* logs, int index)
 {
-	cout << GRAY << "ID: " << RESET << logs[index].id << endl;
-	cout << "ID of task: " << logs[index].idOfTask << endl;
-	cout << "ID of user: " << logs[index].idOfUser << endl;
-	cout << "Time spent (hours): " << logs[index].time << endl;
-	cout << "Date: " << logs[index].date << endl;
+	if (logs[index].isDeleted == false)
+	{
+		cout << GRAY << "ID: " << RESET << logs[index].id << endl;
+		cout << "ID of task: " << logs[index].idOfTask << endl;
+		cout << "ID of user: " << logs[index].idOfUser << endl;
+		cout << "Time spent (hours): " << logs[index].time << endl;
+		cout << "Date: " << logs[index].date << endl;
+	}
 
 	cout << endl;
 }
@@ -801,6 +821,152 @@ void editLog(nanodbc::connection conn, LOG* logs, int& index)
 }
 
 
+void deleteUser(nanodbc::connection conn, USER* users, int id, int& index)
+{
+	nanodbc::statement statement(conn);
+
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    UPDATE [Team Management].dbo.Users
+     SET [isDeleted] = 'True'
+     WHERE Id = ?
+    )"));
+
+	statement.bind(0, &id);
+
+	execute(statement);
+
+	int position = 0;
+
+	for (int i = 0; i < index; i++)
+	{
+		if (users[i].id == id)
+		{
+			position = i;
+		}
+	}
+
+	users[position].isDeleted = true;
+
+	cout << GREEN << "User has been successfully removed!" << RESET<<endl;
+}
+
+void deleteTeam(nanodbc::connection conn, TEAM* teams, int id, int& index)
+{
+	nanodbc::statement statement(conn);
+
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    UPDATE [Team Management].dbo.Teams
+     SET [isDeleted] = 'True'
+     WHERE Id = ?
+    )"));
+
+	statement.bind(0, &id);
+
+	execute(statement);
+
+	int position = 0;
+
+	for (int i = 0; i < index; i++)
+	{
+		if (teams[i].id == id)
+		{
+			position = i;
+		}
+	}
+
+	teams[position].isDeleted = true;
+
+	cout << GREEN << "Team has been successfully removed!" << RESET << endl;
+}
+
+void deleteProject(nanodbc::connection conn, PROJECT* projects, int id, int& index)
+{
+	nanodbc::statement statement(conn);
+
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    UPDATE [Team Management].dbo.Projects
+     SET [isDeleted] = 'True'
+     WHERE Id = ?
+    )"));
+
+	statement.bind(0, &id);
+
+	execute(statement);
+
+	int position = 0;
+
+	for (int i = 0; i < index; i++)
+	{
+		if (projects[i].id == id)
+		{
+			position = i;
+		}
+	}
+
+	projects[position].isDeleted = true;
+
+	cout << GREEN << "Project has been successfully removed!" << RESET << endl;
+}
+
+void deleteTask(nanodbc::connection conn, TASK* tasks, int id, int& index)
+{
+	nanodbc::statement statement(conn);
+
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    UPDATE [Team Management].dbo.Tasks
+     SET [isDeleted] = 'True'
+     WHERE Id = ?
+    )"));
+
+	statement.bind(0, &id);
+
+	execute(statement);
+
+	int position = 0;
+
+	for (int i = 0; i < index; i++)
+	{
+		if (tasks[i].id == id)
+		{
+			position = i;
+		}
+	}
+
+	tasks[position].isDeleted = true;
+
+	cout << GREEN << "Task has been successfully removed!" << RESET << endl;
+}
+
+void deleteLog(nanodbc::connection conn, LOG* logs, int id, int& index)
+{
+	nanodbc::statement statement(conn);
+
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+    UPDATE [Team Management].dbo.Logs
+     SET [isDeleted] = 'True'
+     WHERE Id = ?
+    )"));
+
+	statement.bind(0, &id);
+
+	execute(statement);
+
+	int position = 0;
+
+	for (int i = 0; i < index; i++)
+	{
+		if (logs[i].id == id)
+		{
+			position = i;
+		}
+	}
+
+	logs[position].isDeleted = true;
+
+	cout << GREEN << "Log has been successfully removed!" << RESET << endl;
+}
+
+
 // function that asks the user if they want to return to the main menu
 bool returnBack()
 {
@@ -903,7 +1069,10 @@ void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn)
 			cont = returnBack();
 			break;
 		case 4:
-			//
+			int id;
+			cout << "Enter the ID of the log you want to remove: ";
+			cin >> id;
+			deleteLog(conn, logs, id, logIndex);
 			cont = returnBack();
 			break;
 		case 5:
@@ -966,7 +1135,10 @@ void displayTasksMenu(TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nan
 			cont = returnBack();
 			break;
 		case 4:
-			//
+			int id;
+			cout << "Enter the ID of the task you want to remove: ";
+			cin >> id;
+			deleteTask(conn, tasks, id, taskIndex);
 			cont = returnBack();
 			break;
 		case 5:
@@ -1035,7 +1207,10 @@ void displayProjectsMenu(PROJECT* projects, int& projectIndex, TASK* tasks, int&
 			cont = returnBack();
 			break;
 		case 4:
-			//
+			int id;
+			cout << "Enter the ID of the project you want to remove: ";
+			cin >> id;
+			deleteProject(conn, projects, id, projectIndex);
 			cont = returnBack();
 			break;
 		case 5:
@@ -1105,7 +1280,10 @@ void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn)
 			cont = returnBack();
 			break;
 		case 4:
-			//
+			int id;
+			cout << "Enter the ID of the team you want to remove: ";
+			cin >> id;
+			deleteTeam(conn, teams, id, teamIndex);
 			cont = returnBack();
 			break;
 		case 5:
@@ -1171,7 +1349,10 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn)
 			cont = returnBack();
 			break;
 		case 4:
-			//
+			int id;
+			cout << "Enter the ID of the user you want to remove: ";
+			cin >> id;
+			deleteUser(conn, users, id, userIndex);
 			cont = returnBack();
 			break;
 		case 5:
@@ -1251,11 +1432,8 @@ int main()
 	
 
 	try {
-		nanodbc::string connstr = NANODBC_TEXT("DRIVER={ODBC Driver 17 for SQL Server};SERVER=(localdb)\\MSSQLLocaldb;DATABASE=Team Management;Trusted_Connection=yes;"); // an ODBC connection string to your database
-
+		nanodbc::string connstr = NANODBC_TEXT("DRIVER={ODBC Driver 17 for SQL Server};SERVER=(localdb)\\MSSQLLocaldb;DATABASE=Team Management;Trusted_Connection=yes;");
 		nanodbc::connection conn(connstr);
-
-		//auto result = nanodbc::execute(conn, NANODBC_TEXT(R"( SELECT TOP 3 * FROM [Team Management].dbo.Users )"));
 
 		for (int i = 0; i < userIndex; i++)
 		{
@@ -1283,7 +1461,6 @@ int main()
 		}
 
 		displayMainMenu(users, userIndex, teams, teamIndex, projects, projectIndex, tasks, taskIndex, logs, logIndex, conn);
-		
 
 		return EXIT_SUCCESS;
 	}
@@ -1292,5 +1469,4 @@ int main()
 		std::cerr << e.what() << std::endl;
 		return EXIT_FAILURE;
 	}
-
 }
