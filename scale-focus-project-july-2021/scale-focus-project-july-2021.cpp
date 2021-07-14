@@ -228,19 +228,25 @@ void displayAllProjects(PROJECT* projects, int index)
 	}
 }
 
-void displayAllTasks(TASK* tasks, int index)
+void displayAllTasks(TASK* tasks, int index, int projectId)
 {
 	for (int i = 0; i < index; i++)
 	{
-		displayTask(tasks, i);
+		if (tasks[i].idOfProject == projectId)
+		{
+			displayTask(tasks, i);
+		}
 	}
 }
 
-void displayAllLogs(LOG* logs, int index)
+void displayAllLogs(LOG* logs, int index, int taskId)
 {
 	for (int i = 0; i < index; i++)
 	{
-		displayLog(logs, i);
+		if (logs[i].idOfTask == taskId)
+		{
+			displayLog(logs, i);
+		}
 	}
 }
 
@@ -324,6 +330,8 @@ void getTaskFromDatabase(nanodbc::connection conn, TASK* tasks, int& index)
     )"));
 
 	auto result = execute(statement);
+
+	
 
 	while (result.next()) {
 		tasks[index].id = result.get<int>("Id");
@@ -472,7 +480,7 @@ void insertProject(nanodbc::connection conn, PROJECT* projects, int& index)
 	cout << GREEN << "Project has been successfully added" << RESET << endl;
 }
 
-void insertTask(nanodbc::connection conn, TASK* tasks, int& index)
+void insertTask(nanodbc::connection conn, TASK* tasks, int& index, int projectId)
 {
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
@@ -492,8 +500,7 @@ void insertTask(nanodbc::connection conn, TASK* tasks, int& index)
 	tasks[index].description = cinText();
 	statement.bind(3, tasks[index].description.c_str());
 
-	cout << "Id of project: ";
-	tasks[index].idOfProject = cinInt();
+	tasks[index].idOfProject = projectId;
 	statement.bind(0, &tasks[index].idOfProject);
 
 	cout << "Id of assignee: ";
@@ -521,12 +528,14 @@ void insertTask(nanodbc::connection conn, TASK* tasks, int& index)
 
 	execute(statement);
 
-	getTaskFromDatabase(conn, tasks, index);
+	int j = 0;
+	getTaskFromDatabase(conn, tasks, j);
+	index++;
 
 	cout << GREEN << "Task has been successfully added" << RESET << endl;
 }
 
-void insertLog(nanodbc::connection conn, LOG* logs, int& index)
+void insertLog(nanodbc::connection conn, LOG* logs, int& index, int taskId)
 {
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
@@ -537,8 +546,7 @@ void insertLog(nanodbc::connection conn, LOG* logs, int& index)
     (?, ?, ?)
     )"));
 
-	cout << "Id of Task: ";
-	logs[index].idOfTask = cinInt();
+	logs[index].idOfTask = taskId;
 	statement.bind(0, &logs[index].idOfTask);
 
 	cout << "Id of User: ";
@@ -551,7 +559,9 @@ void insertLog(nanodbc::connection conn, LOG* logs, int& index)
 
 	execute(statement);
 
-	getLogFromDatabase(conn, logs, index);
+	int j = 0;
+	getLogFromDatabase(conn, logs, j);
+	index++;
 
 	cout << GREEN << "Log has been successfully added" << RESET << endl;
 }
@@ -1015,8 +1025,19 @@ bool returnBack()
 	return password;
 }*/
 
+void logIn()
+{
+
+}
+
 void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn)
 {
+	int taskId;
+	cout << "Please, enter the ID of the task, the logs of which you want to see: ";
+	cin >> taskId;
+
+	system("cls");
+
 	bool cont = true;
 
 	while (cont == true)
@@ -1057,15 +1078,15 @@ void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn)
 		switch (choice)
 		{
 		case 1:
-			//
+			displayAllLogs(logs, logIndex, taskId);
 			cont = returnBack();
 			break;
 		case 2:
-			//
+			insertLog(conn, logs, logIndex, taskId);
 			cont = returnBack();
 			break;
 		case 3:
-			//
+			editLog(conn, logs, logIndex);
 			cont = returnBack();
 			break;
 		case 4:
@@ -1084,6 +1105,12 @@ void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn)
 
 void displayTasksMenu(TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn)
 {
+	int projectId;
+	cout << "Please, enter the ID of the project, the tasks of which you want to see: ";
+	cin >> projectId;
+
+	system("cls");
+
 	bool cont = true;
 
 	while (cont == true)
@@ -1123,15 +1150,15 @@ void displayTasksMenu(TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nan
 		switch (choice)
 		{
 		case 1:
-			//
+			displayAllTasks(tasks, taskIndex, projectId);
 			cont = returnBack();
 			break;
 		case 2:
-			//
+			insertTask(conn, tasks, taskIndex, projectId);
 			cont = returnBack();
 			break;
 		case 3:
-			//
+			editTask(conn, tasks, taskIndex);
 			cont = returnBack();
 			break;
 		case 4:
