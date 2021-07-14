@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 #include <conio.h>
-#include <ios> //used to get stream size
-#include <limits> //used to get numeric limits
+#include <ios>
+#include <limits>
 using namespace std;
 
 // defining colors used for output design
@@ -849,7 +849,137 @@ bool returnBack()
 	return password;
 }*/
 
-void displayProjectsMenu(PROJECT* projects, int& projectIndex, nanodbc::connection conn)
+void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn)
+{
+	bool cont = true;
+
+	while (cont == true)
+	{
+		int choice = 0;
+
+		cout << endl;
+		cout << "  _                     " << endl;
+		cout << " | |                    " << endl;
+		cout << " | |     ___   __ _ ___ " << endl;
+		cout << " | |    / _ \\ / _` / __|" << endl;
+		cout << " | |___| (_) | (_| \\__ \\" << endl;
+		cout << " |______\\___/ \\__, |___/" << endl;
+		cout << "               __/ |    " << endl;
+		cout << "              |___/     " << endl << endl;
+		cout << " ========================================" << endl;
+		cout << "|" << " 1)" << YELLOW << " Show a list of all logs" << RESET << "             |" << endl;
+		cout << "|" << " 2)" << GREEN << " Create a log" << RESET << "                        |" << endl;
+		cout << "|" << " 3)" << CYAN << " Edit a log" << RESET << "                          |" << endl;
+		cout << "|" << " 4)" << RED << " Delete a log" << RESET << "                        |" << endl;
+		cout << "|" << " 5)" << GRAY << " Return back to the Tasks menu" << RESET << "       |" << endl;
+		cout << " ========================================" << endl << endl;
+
+		cout << "Enter your choice: ";
+		choice = cinInt();
+
+		while (choice > 5 or choice < 1)
+		{
+			cout << endl;
+			cout << RED << "The number you enter has to be between 1 and 5! Please, try again: " << RESET;
+			choice = cinInt();
+		}
+
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+		system("cls");
+
+		switch (choice)
+		{
+		case 1:
+			//
+			cont = returnBack();
+			break;
+		case 2:
+			//
+			cont = returnBack();
+			break;
+		case 3:
+			//
+			cont = returnBack();
+			break;
+		case 4:
+			//
+			cont = returnBack();
+			break;
+		case 5:
+			cont = false;
+			break;
+		}
+	}
+}
+
+void displayTasksMenu(TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn)
+{
+	bool cont = true;
+
+	while (cont == true)
+	{
+		int choice = 0;
+
+		cout << endl;
+		cout << "  _______        _        " << endl;
+		cout << " |__   __|      | |       " << endl;
+		cout << "    | | __ _ ___| | _____ " << endl;
+		cout << "    | |/ _` / __| |/ / __|" << endl;
+		cout << "    | | (_| \\__ \\   <\\__ \\" << endl;
+		cout << "    |_|\\__,_|___/_|\\_\\___/" << endl << endl;
+		cout << " ========================================" << endl;
+		cout << "|" << " 1)" << YELLOW << " Show a list of all tasks" << RESET << "            |" << endl;
+		cout << "|" << " 2)" << GREEN << " Create a task" << RESET << "                       |" << endl;
+		cout << "|" << " 3)" << CYAN << " Edit a task" << RESET << "                         |" << endl;
+		cout << "|" << " 4)" << RED << " Delete a task" << RESET << "                       |" << endl;
+		cout << "|" << " 5)" << BLUE << " View the Logs menu for this task" << RESET << "    |" << endl;
+		cout << "|" << " 6)" << GRAY << " Return back to the Projects menu" << RESET << "    |" << endl;
+		cout << " ========================================" << endl << endl;
+
+		cout << "Enter your choice: ";
+		choice = cinInt();
+
+		while (choice > 6 or choice < 1)
+		{
+			cout << endl;
+			cout << RED << "The number you enter has to be between 1 and 6! Please, try again: " << RESET;
+			choice = cinInt();
+		}
+
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+		system("cls");
+
+		switch (choice)
+		{
+		case 1:
+			//
+			cont = returnBack();
+			break;
+		case 2:
+			//
+			cont = returnBack();
+			break;
+		case 3:
+			//
+			cont = returnBack();
+			break;
+		case 4:
+			//
+			cont = returnBack();
+			break;
+		case 5:
+			displayLogsMenu(logs, logIndex, conn);
+			break;
+		case 6:
+			cont = false;
+			break;
+		}
+	}
+}
+
+void displayProjectsMenu(PROJECT* projects, int& projectIndex, TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn)
 {
 	bool cont = true;
 
@@ -866,22 +996,23 @@ void displayProjectsMenu(PROJECT* projects, int& projectIndex, nanodbc::connecti
 		cout << " |_|   |_|  \\___/| |\\___|\\___|\\__|___/" << endl;
 		cout << "                _/ |                  " << endl;
 		cout << "               |__/                   " << endl << endl;
-		cout << " =======================================" << endl;
-		cout << "|" << " 1)" << YELLOW << " Show a list of all projects" << RESET << "        |" << endl;
-		cout << "|" << " 2)" << GREEN << " Create a project" << RESET << "                   |" << endl;
-		cout << "|" << " 3)" << CYAN << " Edit a project" << RESET << "                     |" << endl;
-		cout << "|" << " 4)" << RED << " Delete a project" << RESET << "                   |" << endl;
-		cout << "|" << " 5)" << PURPLE << " Assign a team to a project" << RESET << "         |" << endl;
-		cout << "|" << " 6)" << GRAY << " Return back to the Main Menu" << RESET << "       |" << endl;
-		cout << " =======================================" << endl << endl;
+		cout << " ========================================" << endl;
+		cout << "|" << " 1)" << YELLOW << " Show a list of all projects" << RESET << "         |" << endl;
+		cout << "|" << " 2)" << GREEN << " Create a project" << RESET << "                    |" << endl;
+		cout << "|" << " 3)" << CYAN << " Edit a project" << RESET << "                      |" << endl;
+		cout << "|" << " 4)" << RED << " Delete a project" << RESET << "                    |" << endl;
+		cout << "|" << " 5)" << PURPLE << " Assign a team to a project" << RESET << "          |" << endl;
+		cout << "|" << " 6)" << BLUE << " View the Task menu for this project" << RESET << " |" << endl;
+		cout << "|" << " 7)" << GRAY << " Return back to the Main Menu" << RESET << "        |" << endl;
+		cout << " ========================================" << endl << endl;
 
 		cout << "Enter your choice: ";
 		choice = cinInt();
 
-		while (choice > 6 or choice < 1)
+		while (choice > 7 or choice < 1)
 		{
 			cout << endl;
-			cout << RED << "The number you enter has to be between 1 and 6! Please, try again: " << RESET;
+			cout << RED << "The number you enter has to be between 1 and 7! Please, try again: " << RESET;
 			choice = cinInt();
 		}
 
@@ -912,6 +1043,9 @@ void displayProjectsMenu(PROJECT* projects, int& projectIndex, nanodbc::connecti
 			cont = returnBack();
 			break;
 		case 6:
+			displayTasksMenu(tasks, taskIndex, logs, logIndex, conn);
+			break;
+		case 7:
 			cont = false;
 			break;
 		}
@@ -1094,7 +1228,7 @@ void displayMainMenu(USER* users, int& userIndex, TEAM* teams, int& teamIndex, P
 			displayTeamsMenu(teams, teamIndex, conn);
 			break;
 		case 3:
-			displayProjectsMenu(projects, projectIndex, conn);
+			displayProjectsMenu(projects, projectIndex, tasks, taskIndex, logs, logIndex, conn);
 			break;
 		case 4:
 			exit(0);
