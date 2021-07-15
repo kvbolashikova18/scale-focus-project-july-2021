@@ -134,22 +134,26 @@ void displayWelcome()
 	spaces(17); cout << "     \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|" << endl << endl;
 }
 
+
 void displayUser(USER* users, int index, USER currentUser)
 {
 	if (users[index].isDeleted == false)
 	{
-		cout << GRAY << "ID: " << RESET << users[index].id << endl;
-		cout << "Username: " << users[index].username << endl;
+		cout << " ________________________________________________" << endl;
+		cout << "/                                                \\" << endl;
+		cout << GRAY << "  ID: " << RESET << users[index].id << endl;
+		cout << GRAY << "  Username: " << RESET << users[index].username << endl;
 		if (currentUser.username == "admin")
 		{
-			cout << "Password: " << users[index].password << endl;
+			cout << GRAY << "  Password: " << RESET << users[index].password << endl;
 		}
-		cout << "First name: " << users[index].firstName << endl;
-		cout << "Last name: " << users[index].lastName << endl;
-		cout << "Date of creation: " << users[index].dateOfCreation << endl;
-		cout << "ID of creator: " << users[index].idOfCreator << endl;
-		cout << "Date of last change: " << users[index].dateOfLastChange << endl;
-		cout << "ID of last changer: " << users[index].idOfChanger << endl;
+		cout << GRAY << "  First name: " << RESET << users[index].firstName << endl;
+		cout << GRAY << "  Last name: " << RESET << users[index].lastName << endl;
+		cout << GRAY << "  Date of creation: " << RESET << users[index].dateOfCreation << endl;
+		cout << GRAY << "  ID of creator: " << RESET << users[index].idOfCreator << endl;
+		cout << GRAY << "  Date of last change: " << RESET << users[index].dateOfLastChange << endl;
+		cout << GRAY << "  ID of last changer: " << RESET << users[index].idOfChanger << endl;
+		cout << "\\________________________________________________/" << endl;
 	}
 
 	cout << endl;
@@ -159,12 +163,15 @@ void displayTeam(TEAM* teams, int index)
 {
 	if (teams[index].isDeleted == false)
 	{
-		cout << GRAY << "ID: " << RESET << teams[index].id << endl;
-		cout << "Title: " << teams[index].title << endl;
-		cout << "Date of creation: " << teams[index].dateOfCreation << endl;
-		cout << "ID of creator: " << teams[index].idOfCreator << endl;
-		cout << "Date of last change: " << teams[index].dateOfLastChange << endl;
-		cout << "ID of last changer: " << teams[index].idOfChanger << endl;
+		cout << " ________________________________________________" << endl;
+		cout << "/                                                \\" << endl;
+		cout << GRAY << "  ID: " << RESET << teams[index].id << endl;
+		cout << GRAY << "  Title: " << RESET << teams[index].title << endl;
+		cout << GRAY << "  Date of creation: " << RESET << teams[index].dateOfCreation << endl;
+		cout << GRAY << "  ID of creator: " << RESET << teams[index].idOfCreator << endl;
+		cout << GRAY << "  Date of last change: " << RESET << teams[index].dateOfLastChange << endl;
+		cout << GRAY << "  ID of last changer: " << RESET << teams[index].idOfChanger << endl;
+		cout << "\\________________________________________________/" << endl;
 	}
 
 	cout << endl;
@@ -174,13 +181,16 @@ void displayProject(PROJECT* projects, int index)
 {
 	if (projects[index].isDeleted == false)
 	{
-		cout << GRAY << "ID: " << RESET << projects[index].id << endl;
-		cout << "Title: " << projects[index].title << endl;
-		cout << "Description: " << projects[index].description << endl;
-		cout << "Date of creation: " << projects[index].dateOfCreation << endl;
-		cout << "ID of creator: " << projects[index].idOfCreator << endl;
-		cout << "Date of last change: " << projects[index].dateOfLastChange << endl;
-		cout << "ID of last changer: " << projects[index].idOfChanger << endl;
+		cout << " ________________________________________________" << endl;
+		cout << "/                                                \\" << endl;
+		cout << GRAY << "  ID: " << RESET << projects[index].id << endl;
+		cout << GRAY << "  Title: " << RESET << projects[index].title << endl;
+		cout << GRAY << "  Description: " << RESET << projects[index].description << endl;
+		cout << GRAY << "  Date of creation: " << RESET << projects[index].dateOfCreation << endl;
+		cout << GRAY << "  ID of creator: " << RESET << projects[index].idOfCreator << endl;
+		cout << GRAY << "  Date of last change: " << RESET << projects[index].dateOfLastChange << endl;
+		cout << GRAY << "  ID of last changer: " << RESET << projects[index].idOfChanger << endl;
+		cout << "\\________________________________________________/" << endl;
 	}
 
 	cout << endl;
@@ -190,21 +200,24 @@ void displayTask(TASK* tasks, int index)
 {
 	if (tasks[index].isDeleted == false)
 	{
-		cout << GRAY << "ID: " << RESET << tasks[index].id << endl;
-		cout << "ID of project: " << tasks[index].idOfProject << endl;
-		cout << "ID of assignee: " << tasks[index].idOfAssignee << endl;
-		cout << "Title: " << tasks[index].title << endl;
-		cout << "Description: " << tasks[index].description << endl;
+		cout << " ________________________________________________" << endl;
+		cout << "/                                                \\" << endl;
+		cout << GRAY << "  ID: " << RESET << tasks[index].id << endl;
+		cout << GRAY << "  ID of project: " << RESET << tasks[index].idOfProject << endl;
+		cout << GRAY << "  ID of assignee: " << RESET << tasks[index].idOfAssignee << endl;
+		cout << GRAY << "  Title: " << RESET << tasks[index].title << endl;
+		cout << GRAY << "  Description: " << RESET << tasks[index].description << endl;
 		if (tasks[index].status == status::pending)
-			cout << "Status: pending" << endl;
+			cout << GRAY << "  Status: pending" << RESET << endl;
 		else if (tasks[index].status == status::inProgress)
-			cout << "Status: in progress" << endl;
+			cout << GRAY << "  Status: in progress" << RESET << endl;
 		else
-			cout << "Status: completed" << endl;
-		cout << "Date of creation: " << tasks[index].dateOfCreation << endl;
-		cout << "ID of creator: " << tasks[index].idOfCreator << endl;
-		cout << "Date of last change: " << tasks[index].dateOfLastChange << endl;
-		cout << "ID of last changer: " << tasks[index].idOfChanger << endl;
+			cout << GRAY << "  Status: completed" << RESET << endl;
+		cout << GRAY << "  Date of creation: " << RESET << tasks[index].dateOfCreation << endl;
+		cout << GRAY << "  ID of creator: " << RESET << tasks[index].idOfCreator << endl;
+		cout << GRAY << "  Date of last change: " << RESET << tasks[index].dateOfLastChange << endl;
+		cout << GRAY << "  ID of last changer: " << RESET << tasks[index].idOfChanger << endl;
+		cout << "\\________________________________________________/" << endl;
 	}
 
 	cout << endl;
@@ -214,11 +227,14 @@ void displayLog(LOG* logs, int index)
 {
 	if (logs[index].isDeleted == false)
 	{
-		cout << GRAY << "ID: " << RESET << logs[index].id << endl;
-		cout << "ID of task: " << logs[index].idOfTask << endl;
-		cout << "ID of user: " << logs[index].idOfUser << endl;
-		cout << "Time spent (hours): " << logs[index].time << endl;
-		cout << "Date: " << logs[index].date << endl;
+		cout << " __________________________________" << endl;
+		cout << "/                                  \\" << endl;
+		cout << GRAY << "  ID: " << RESET << logs[index].id << endl;
+		cout << GRAY << "  ID of task: " << RESET << logs[index].idOfTask << endl;
+		cout << GRAY << "  ID of user: " << RESET << logs[index].idOfUser << endl;
+		cout << GRAY << "  Time spent (hours): " << RESET << logs[index].time << endl;
+		cout << GRAY << "  Date: " << RESET << logs[index].date << endl;
+		cout << "\\__________________________________/" << endl;
 	}
 
 	cout << endl;
@@ -403,19 +419,19 @@ void insertUser(nanodbc::connection conn, USER* users, int& index)
     (?, ?, ?, ?, ?, ?, ?)
     )"));
 
-	cout << "Username: ";
+	cout << GRAY << "Username: " << RESET;
 	users[index].username = cinText();
 	statement.bind(0, users[index].username.c_str());
 
-	cout << "Password: ";
+	cout << GRAY << "Password: " << RESET;
 	users[index].password = cinText();
 	statement.bind(1, users[index].password.c_str());
 
-	cout << "First name: ";
+	cout << GRAY << "First name: " << RESET;
 	users[index].firstName = cinText();
 	statement.bind(2, users[index].firstName.c_str());
 
-	cout << "Last name: ";
+	cout << GRAY << "Last name: " << RESET;
 	users[index].lastName = cinText();
 	statement.bind(3, users[index].lastName.c_str());
 
@@ -446,7 +462,7 @@ void insertTeam(nanodbc::connection conn, TEAM* teams, int& index)
     (?, ?, ?)
     )"));
 
-	cout << "Title: ";
+	cout << GRAY << "Title: " << RESET;
 	teams[index].title = cinText();
 	statement.bind(0, teams[index].title.c_str());
 
@@ -474,19 +490,19 @@ void insertProject(nanodbc::connection conn, PROJECT* projects, int& index)
     (?, ?, ?, ?)
     )"));
 
-	cout << "Title: ";
+	cout << GRAY << "Title: " << RESET;
 	projects[index].title = cinText();
 	statement.bind(0, projects[index].title.c_str());
 
-	cout << "Description: ";
+	cout << GRAY << "Description: " << RESET;
 	projects[index].description = cinText();
 	statement.bind(1, projects[index].description.c_str());
 
-	cout << "Id of creator: ";
+	cout << GRAY << "Id of creator: " << RESET;
 	projects[index].idOfCreator = cinInt();
 	statement.bind(2, &projects[index].idOfCreator);
 
-	cout << "Id of last changer: ";
+	cout << GRAY << "Id of last changer: " << RESET;
 	projects[index].idOfChanger = cinInt();
 	statement.bind(3, &projects[index].idOfChanger);
 
@@ -509,22 +525,22 @@ void insertTask(nanodbc::connection conn, TASK* tasks, int& index, int projectId
     )"));
 
 
-	cout << "Title: ";
+	cout << GRAY << "Title: " << RESET;
 	tasks[index].title = cinText();
 	statement.bind(2, tasks[index].title.c_str());
 
-	cout << "Description: ";
+	cout << GRAY << "Description: " << RESET;
 	tasks[index].description = cinText();
 	statement.bind(3, tasks[index].description.c_str());
 
 	tasks[index].idOfProject = projectId;
 	statement.bind(0, &tasks[index].idOfProject);
 
-	cout << "Id of assignee: ";
+	cout << GRAY << "Id of assignee: " << RESET;
 	tasks[index].idOfAssignee = cinInt();
 	statement.bind(1, &tasks[index].idOfAssignee);
 
-	cout << "Status (0 - Pending / 1 - In progress / 2 - Completed): ";
+	cout << GRAY << "Status (0 - Pending / 1 - In progress / 2 - Completed): " << RESET;
 	int status;
 	status = cinInt();
 	if (status == 0)
@@ -535,11 +551,11 @@ void insertTask(nanodbc::connection conn, TASK* tasks, int& index, int projectId
 		tasks[index].status = status::completed;
 	statement.bind(4, &status);
 
-	cout << "Id of creator: ";
+	cout << GRAY << "Id of creator: " << RESET;
 	tasks[index].idOfCreator = cinInt();
 	statement.bind(5, &tasks[index].idOfCreator);
 
-	cout << "Id of last changer: ";
+	cout << GRAY << "Id of last changer: " << RESET;
 	tasks[index].idOfChanger = cinInt();
 	statement.bind(6, &tasks[index].idOfChanger);
 
@@ -566,11 +582,11 @@ void insertLog(nanodbc::connection conn, LOG* logs, int& index, int taskId)
 	logs[index].idOfTask = taskId;
 	statement.bind(0, &logs[index].idOfTask);
 
-	cout << "Id of User: ";
+	cout << GRAY << "Id of User: " << RESET;
 	logs[index].idOfUser = cinInt();
 	statement.bind(1, &logs[index].idOfUser);
 
-	cout << "Time spent (in hours): ";
+	cout << GRAY << "Time spent (in hours): " << RESET;
 	logs[index].time = cinInt();
 	statement.bind(2, &logs[index].time);
 
@@ -615,19 +631,19 @@ void editUser(nanodbc::connection conn, USER* users, int& index)
      WHERE Id = ?;
     )"));
 
-	cout << "New username: ";
+	cout << GRAY << "New username: " << RESET;
 	users[position].username = cinText();
 	statement.bind(0, users[position].username.c_str());
 
-	cout << "New password: ";
+	cout << GRAY << "New password: " << RESET;
 	users[position].password = cinText();
 	statement.bind(1, users[position].password.c_str());
 
-	cout << "New first name: ";
+	cout << GRAY << "New first name: " << RESET;
 	users[position].firstName = cinText();
 	statement.bind(2, users[position].firstName.c_str());
 
-	cout << "New last name: ";
+	cout << GRAY << "New last name: " << RESET;
 	users[position].lastName = cinText();
 	statement.bind(3, users[position].lastName.c_str());
 
@@ -669,7 +685,7 @@ void editTeam(nanodbc::connection conn, TEAM* teams, int& index)
      WHERE Id = ?;
     )"));
 
-	cout << "New title: ";
+	cout << GRAY << "New title: " << RESET;
 	teams[position].title = cinText();
 	statement.bind(0, teams[position].title.c_str());
 
@@ -712,15 +728,15 @@ void editProject(nanodbc::connection conn, PROJECT* projects, int& index)
      WHERE Id = ?;
     )"));
 
-	cout << "New title: ";
+	cout << GRAY << "New title: " << RESET;
 	projects[position].title = cinText();
 	statement.bind(0, projects[position].title.c_str());
 
-	cout << "New description: ";
+	cout << GRAY << "New description: " << RESET;
 	projects[position].description = cinText();
 	statement.bind(1, projects[position].description.c_str());
 
-	cout << "Id of last changer: ";
+	cout << GRAY << "Id of last changer: " << RESET;
 	projects[position].idOfChanger = cinInt();
 	statement.bind(2, &projects[position].idOfChanger);
 
@@ -762,15 +778,15 @@ void editTask(nanodbc::connection conn, TASK* tasks, int& index)
      WHERE Id = ?;
     )"));
 
-	cout << "New title: ";
+	cout << GRAY << "New title: " << RESET;
 	tasks[position].title = cinText();
 	statement.bind(1, tasks[position].title.c_str());
 
-	cout << "New description: ";
+	cout << GRAY << "New description: " << RESET;
 	tasks[position].description = cinText();
 	statement.bind(2, tasks[position].description.c_str());
 
-	cout << "New status (0 - Pending / 1 - In progress / 2 - Completed): ";
+	cout << GRAY << "New status (0 - Pending / 1 - In progress / 2 - Completed): " << RESET;
 	int status;
 	status = cinInt();
 	if (status == 0)
@@ -781,11 +797,11 @@ void editTask(nanodbc::connection conn, TASK* tasks, int& index)
 		tasks[position].status = status::completed;
 	statement.bind(3, &status);
 
-	cout << "Id of new assignee: ";
+	cout << GRAY << "Id of new assignee: " << RESET;
 	tasks[position].idOfAssignee = cinInt();
 	statement.bind(0, &tasks[position].idOfAssignee);
 
-	cout << "Id of last changer: ";
+	cout << GRAY << "Id of last changer: " << RESET;
 	tasks[position].idOfChanger = cinInt();
 	statement.bind(4, &tasks[position].idOfChanger);
 
@@ -826,15 +842,15 @@ void editLog(nanodbc::connection conn, LOG* logs, int& index)
     )"));
 
 
-	cout << "Id of new task: ";
+	cout << GRAY << "Id of new task: " << RESET;
 	logs[position].idOfTask = cinInt();
 	statement.bind(0, &logs[position].idOfTask);
 
-	cout << "Id of new user: ";
+	cout << GRAY << "Id of new user: " << RESET;
 	logs[position].idOfUser = cinInt();
 	statement.bind(1, &logs[position].idOfUser);
 
-	cout << "Time spent (in hours): ";
+	cout << GRAY << "Time spent (in hours): " << RESET;
 	logs[position].time = cinInt();
 	statement.bind(2, &logs[position].time);
 
@@ -999,8 +1015,8 @@ bool returnBack()
 
 	cout << endl;
 	cout << "What would you like to do now?" << endl << endl;
-	cout << GREEN << "1)" << RESET << " Stay in this menu" << endl;
-	cout << GRAY << "2)" << RESET << " Go back to the main menu" << endl << endl;
+	cout << "1)" << GRAY << " Stay in this menu" << RESET << endl;
+	cout << "2)" << GRAY << " Go one menu back" << RESET <<endl << endl;
 	cout << "Enter your choice: ";
 
 	choice = cinInt();
@@ -1031,7 +1047,7 @@ string enterHiddenText()
 	{
 		symbol = _getch();
 		if (symbol != '	')
-		 cout << YELLOW << '*' << RESET;
+		 cout << GRAY << '*' << RESET;
 
 		password += symbol;
 	}
