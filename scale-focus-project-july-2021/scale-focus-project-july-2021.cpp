@@ -143,7 +143,7 @@ void displayUser(USER* users, int index, USER currentUser)
 		cout << "/                                                \\" << endl;
 		cout << GRAY << "  ID: " << RESET << users[index].id << endl;
 		cout << GRAY << "  Username: " << RESET << users[index].username << endl;
-		if (currentUser.username == "admin")
+		if (currentUser.isAdmin == true)
 		{
 			cout << GRAY << "  Password: " << RESET << users[index].password << endl;
 		}
@@ -409,7 +409,7 @@ void getLogFromDatabase(nanodbc::connection conn, LOG* logs, int& index)
 }
 
 
-void insertUser(nanodbc::connection conn, USER* users, int& index)
+void insertUser(nanodbc::connection conn, USER* users, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
@@ -436,10 +436,10 @@ void insertUser(nanodbc::connection conn, USER* users, int& index)
 	users[index].lastName = cinText();
 	statement.bind(3, users[index].lastName.c_str());
 
-	users[index].idOfCreator = 10;
+	users[index].idOfCreator = currentUser.id;
 	statement.bind(4, &users[index].idOfCreator);
 
-	users[index].idOfChanger = 10;
+	users[index].idOfChanger = currentUser.id;
 	statement.bind(5, &users[index].idOfChanger);
 
 	int a = 0;
@@ -452,7 +452,7 @@ void insertUser(nanodbc::connection conn, USER* users, int& index)
 	cout << GREEN << "User has been successfully added" <<  RESET << endl;
 }
 
-void insertTeam(nanodbc::connection conn, TEAM* teams, int& index)
+void insertTeam(nanodbc::connection conn, TEAM* teams, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
@@ -467,10 +467,10 @@ void insertTeam(nanodbc::connection conn, TEAM* teams, int& index)
 	teams[index].title = cinText();
 	statement.bind(0, teams[index].title.c_str());
 
-	teams[index].idOfCreator = 10;
+	teams[index].idOfCreator = currentUser.id;
 	statement.bind(1, &teams[index].idOfCreator);
 
-	teams[index].idOfChanger = 10;
+	teams[index].idOfChanger = currentUser.id;
 	statement.bind(2, &teams[index].idOfChanger);
 
 	execute(statement);
@@ -480,7 +480,7 @@ void insertTeam(nanodbc::connection conn, TEAM* teams, int& index)
 	cout << GREEN << "Team has been successfully added" << RESET << endl;
 }
 
-void insertProject(nanodbc::connection conn, PROJECT* projects, int& index)
+void insertProject(nanodbc::connection conn, PROJECT* projects, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
@@ -499,12 +499,10 @@ void insertProject(nanodbc::connection conn, PROJECT* projects, int& index)
 	projects[index].description = cinText();
 	statement.bind(1, projects[index].description.c_str());
 
-	cout << GRAY << "Id of creator: " << RESET;
-	projects[index].idOfCreator = cinInt();
+	projects[index].idOfCreator = currentUser.id;
 	statement.bind(2, &projects[index].idOfCreator);
 
-	cout << GRAY << "Id of last changer: " << RESET;
-	projects[index].idOfChanger = cinInt();
+	projects[index].idOfChanger = currentUser.id;
 	statement.bind(3, &projects[index].idOfChanger);
 
 	execute(statement);
@@ -514,7 +512,7 @@ void insertProject(nanodbc::connection conn, PROJECT* projects, int& index)
 	cout << GREEN << "Project has been successfully added" << RESET << endl;
 }
 
-void insertTask(nanodbc::connection conn, TASK* tasks, int& index, int projectId)
+void insertTask(nanodbc::connection conn, TASK* tasks, int& index, int projectId, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
@@ -552,12 +550,10 @@ void insertTask(nanodbc::connection conn, TASK* tasks, int& index, int projectId
 		tasks[index].status = status::completed;
 	statement.bind(4, &status);
 
-	cout << GRAY << "Id of creator: " << RESET;
-	tasks[index].idOfCreator = cinInt();
+	tasks[index].idOfCreator = currentUser.id;
 	statement.bind(5, &tasks[index].idOfCreator);
 
-	cout << GRAY << "Id of last changer: " << RESET;
-	tasks[index].idOfChanger = cinInt();
+	tasks[index].idOfChanger = currentUser.id;
 	statement.bind(6, &tasks[index].idOfChanger);
 
 	execute(statement);
@@ -569,7 +565,7 @@ void insertTask(nanodbc::connection conn, TASK* tasks, int& index, int projectId
 	cout << GREEN << "Task has been successfully added" << RESET << endl;
 }
 
-void insertLog(nanodbc::connection conn, LOG* logs, int& index, int taskId)
+void insertLog(nanodbc::connection conn, LOG* logs, int& index, int taskId, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
@@ -601,7 +597,7 @@ void insertLog(nanodbc::connection conn, LOG* logs, int& index, int taskId)
 }
 
 
-void editUser(nanodbc::connection conn, USER* users, int& index)
+void editUser(nanodbc::connection conn, USER* users, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
 
@@ -648,7 +644,7 @@ void editUser(nanodbc::connection conn, USER* users, int& index)
 	users[position].lastName = cinText();
 	statement.bind(3, users[position].lastName.c_str());
 
-	users[position].idOfChanger = 10;
+	users[position].idOfChanger = currentUser.id;
 	statement.bind(4, &users[position].idOfChanger);
 
 	statement.bind(5, &id);
@@ -658,7 +654,7 @@ void editUser(nanodbc::connection conn, USER* users, int& index)
 	cout << GREEN << "User has been successfully updated" << RESET << endl;
 }
 
-void editTeam(nanodbc::connection conn, TEAM* teams, int& index)
+void editTeam(nanodbc::connection conn, TEAM* teams, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
 
@@ -690,7 +686,7 @@ void editTeam(nanodbc::connection conn, TEAM* teams, int& index)
 	teams[position].title = cinText();
 	statement.bind(0, teams[position].title.c_str());
 
-	teams[position].idOfChanger = 10;
+	teams[position].idOfChanger = currentUser.id;
 	statement.bind(1, &teams[position].idOfChanger);
 
 	statement.bind(2, &id);
@@ -700,7 +696,7 @@ void editTeam(nanodbc::connection conn, TEAM* teams, int& index)
 	cout << GREEN << "Team has been successfully updated" << RESET << endl;
 }
 
-void editProject(nanodbc::connection conn, PROJECT* projects, int& index)
+void editProject(nanodbc::connection conn, PROJECT* projects, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
 
@@ -737,8 +733,7 @@ void editProject(nanodbc::connection conn, PROJECT* projects, int& index)
 	projects[position].description = cinText();
 	statement.bind(1, projects[position].description.c_str());
 
-	cout << GRAY << "Id of last changer: " << RESET;
-	projects[position].idOfChanger = cinInt();
+	projects[position].idOfChanger = currentUser.id;
 	statement.bind(2, &projects[position].idOfChanger);
 
 	statement.bind(3, &id);
@@ -748,7 +743,7 @@ void editProject(nanodbc::connection conn, PROJECT* projects, int& index)
 	cout << GREEN << "Project has been successfully updated" << RESET << endl;
 }
 
-void editTask(nanodbc::connection conn, TASK* tasks, int& index)
+void editTask(nanodbc::connection conn, TASK* tasks, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
 
@@ -802,8 +797,7 @@ void editTask(nanodbc::connection conn, TASK* tasks, int& index)
 	tasks[position].idOfAssignee = cinInt();
 	statement.bind(0, &tasks[position].idOfAssignee);
 
-	cout << GRAY << "Id of last changer: " << RESET;
-	tasks[position].idOfChanger = cinInt();
+	tasks[position].idOfChanger = currentUser.id;
 	statement.bind(4, &tasks[position].idOfChanger);
 
 	statement.bind(5, &id);
@@ -813,7 +807,7 @@ void editTask(nanodbc::connection conn, TASK* tasks, int& index)
 	cout << GREEN << "Task has been successfully updated" << RESET << endl;
 }
 
-void editLog(nanodbc::connection conn, LOG* logs, int& index)
+void editLog(nanodbc::connection conn, LOG* logs, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
 
@@ -1084,14 +1078,14 @@ bool logIn(string& username, string& password, USER* users, int& userIndex, USER
 
 	if (usernameMatchCount != 0 and users[usernameMatchIndex].username == username and users[usernameMatchIndex].password == password)
 	{
-		return true;
 		currentUser = users[usernameMatchIndex];
+		return true;
 	}
 
 	return false;
 }
 
-void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn)
+void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn, USER& currentUser)
 {
 	int taskId;
 	cout << "Please, enter the ID of the task, the logs of which you want to see: ";
@@ -1143,11 +1137,11 @@ void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn)
 			cont = returnBack();
 			break;
 		case 2:
-			insertLog(conn, logs, logIndex, taskId);
+			insertLog(conn, logs, logIndex, taskId, currentUser);
 			cont = returnBack();
 			break;
 		case 3:
-			editLog(conn, logs, logIndex);
+			editLog(conn, logs, logIndex, currentUser);
 			cont = returnBack();
 			break;
 		case 4:
@@ -1164,7 +1158,7 @@ void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn)
 	}
 }
 
-void displayTasksMenu(TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn)
+void displayTasksMenu(TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn, USER& currentUser)
 {
 	int projectId;
 	cout << "Please, enter the ID of the project, the tasks of which you want to see: ";
@@ -1215,11 +1209,11 @@ void displayTasksMenu(TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nan
 			cont = returnBack();
 			break;
 		case 2:
-			insertTask(conn, tasks, taskIndex, projectId);
+			insertTask(conn, tasks, taskIndex, projectId, currentUser);
 			cont = returnBack();
 			break;
 		case 3:
-			editTask(conn, tasks, taskIndex);
+			editTask(conn, tasks, taskIndex, currentUser);
 			cont = returnBack();
 			break;
 		case 4:
@@ -1230,7 +1224,7 @@ void displayTasksMenu(TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nan
 			cont = returnBack();
 			break;
 		case 5:
-			displayLogsMenu(logs, logIndex, conn);
+			displayLogsMenu(logs, logIndex, conn, currentUser);
 			break;
 		case 6:
 			cont = false;
@@ -1239,7 +1233,7 @@ void displayTasksMenu(TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nan
 	}
 }
 
-void displayProjectsMenu(PROJECT* projects, int& projectIndex, TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn, USER currentUser)
+void displayProjectsMenu(PROJECT* projects, int& projectIndex, TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn, USER& currentUser)
 {
 	bool cont = true;
 
@@ -1287,11 +1281,11 @@ void displayProjectsMenu(PROJECT* projects, int& projectIndex, TASK* tasks, int&
 			cont = returnBack();
 			break;
 		case 2:
-			insertProject(conn, projects, projectIndex);
+			insertProject(conn, projects, projectIndex, currentUser);
 			cont = returnBack();
 			break;
 		case 3:
-			editProject(conn, projects, projectIndex);
+			editProject(conn, projects, projectIndex, currentUser);
 			cont = returnBack();
 			break;
 		case 4:
@@ -1306,7 +1300,7 @@ void displayProjectsMenu(PROJECT* projects, int& projectIndex, TASK* tasks, int&
 			cont = returnBack();
 			break;
 		case 6:
-			displayTasksMenu(tasks, taskIndex, logs, logIndex, conn);
+			displayTasksMenu(tasks, taskIndex, logs, logIndex, conn, currentUser);
 			break;
 		case 7:
 			cont = false;
@@ -1315,7 +1309,7 @@ void displayProjectsMenu(PROJECT* projects, int& projectIndex, TASK* tasks, int&
 	}
 }
 
-void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn, USER currentUser)
+void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn, USER& currentUser)
 {
 	bool cont = true;
 
@@ -1360,21 +1354,21 @@ void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn, USE
 			cont = returnBack();
 			break;
 		case 2:
-			if (currentUser.username == "admin")
-				insertTeam(conn, teams, teamIndex);
+			if (currentUser.isAdmin == true)
+				insertTeam(conn, teams, teamIndex, currentUser);
 			else
 				cout << RED << "\nYou don't have permission for this operation" << RESET << endl;
 			cont = returnBack();
 			break;
 		case 3:
-			if (currentUser.username == "admin")
-				editTeam(conn, teams, teamIndex);
+			if (currentUser.isAdmin == true)
+				editTeam(conn, teams, teamIndex, currentUser);
 			else
 				cout << RED << "\nYou don't have permission for this operation" << RESET << endl;
 			cont = returnBack();
 			break;
 		case 4:
-			if (currentUser.username == "admin")
+			if (currentUser.isAdmin == true)
 			{
 				int id;
 				cout << "Enter the ID of the team you want to remove: ";
@@ -1396,7 +1390,7 @@ void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn, USE
 	}
 }
 
-void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn, USER currentUser)
+void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn, USER& currentUser)
 {
 	bool cont = true;
 
@@ -1440,21 +1434,21 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn, USE
 			cont = returnBack();
 			break;
 		case 2:
-			if (currentUser.username == "admin")
-				insertUser(conn, users, userIndex);
+			if (currentUser.isAdmin == true)
+				insertUser(conn, users, userIndex, currentUser);
 			else
 				cout << RED << "\nYou don't have permission for this operation" << RESET << endl;
 			cont = returnBack();
 			break;
 		case 3:
-			if (currentUser.username == "admin")
-				editUser(conn, users, userIndex);
+			if (currentUser.isAdmin == true)
+				editUser(conn, users, userIndex, currentUser);
 			else
 				cout << RED << "\nYou don't have permission for this operation" << RESET << endl;
 			cont = returnBack();
 			break;
 		case 4:
-			if (currentUser.username == "admin")
+			if (currentUser.isAdmin == true)
 			{
 				int id;
 				cout << "Enter the ID of the user you want to remove: ";
@@ -1472,7 +1466,7 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn, USE
 	}
 }
 
-void displayMainMenu(USER* users, int& userIndex, TEAM* teams, int& teamIndex, PROJECT* projects, int& projectIndex, TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn, USER currentUser)
+void displayMainMenu(USER* users, int& userIndex, TEAM* teams, int& teamIndex, PROJECT* projects, int& projectIndex, TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn, USER& currentUser)
 {
 
 	int choice = 0;
