@@ -6,6 +6,7 @@
 #include <conio.h>
 #include <ios>
 #include <limits>
+
 using namespace std;
 
 // defining colors used for output design
@@ -19,6 +20,7 @@ using namespace std;
 #define GRAY    "\033[1;90m" 
 #define WHITE   "\033[4;37m"
 
+// enumeration used for status of tasks
 enum class status
 {
 	pending,
@@ -26,6 +28,7 @@ enum class status
 	completed
 };
 
+// structure for user
 struct USER
 {
 	int id = 0;
@@ -41,6 +44,7 @@ struct USER
 	bool isDeleted = 0;
 };
 
+// structure for team
 struct TEAM
 {
 	int id = 0;
@@ -53,6 +57,7 @@ struct TEAM
 	bool isDeleted = 0;
 };
 
+// structure for project
 struct PROJECT
 {
 	int id = 0;
@@ -65,6 +70,7 @@ struct PROJECT
 	bool isDeleted = 0;
 };
 
+// structure for task
 struct TASK
 {
 	int id = 0;
@@ -80,6 +86,7 @@ struct TASK
 	bool isDeleted = 0;
 };
 
+// structure for log
 struct LOG
 {
 	int id = 0;
@@ -107,6 +114,7 @@ int cinInt()
 	return number;
 }
 
+// reads strings
 string cinText()
 {
 	cin.ignore(0, '\n');
@@ -116,6 +124,7 @@ string cinText()
 	return text;
 }
 
+// outputs spaces
 void spaces(int n)
 {
 	for (int i = 0; i < n; i++)
@@ -124,6 +133,7 @@ void spaces(int n)
 	}
 }
 
+// outputs a "welcome" message
 void displayWelcome()
 {
 	spaces(17); cout << " __          __  _                          " << endl;
@@ -135,6 +145,7 @@ void displayWelcome()
 }
 
 
+// function that outputs info about a user
 void displayUser(USER* users, int index, USER currentUser)
 {
 	if (users[index].isDeleted == false)
@@ -159,6 +170,7 @@ void displayUser(USER* users, int index, USER currentUser)
 	cout << endl;
 }
 
+// function that outputs info about a team
 void displayTeam(TEAM* teams, int index)
 {
 	if (teams[index].isDeleted == false)
@@ -177,6 +189,7 @@ void displayTeam(TEAM* teams, int index)
 	cout << endl;
 }
 
+// function that outputs info about a project
 void displayProject(PROJECT* projects, int index)
 {
 	if (projects[index].isDeleted == false)
@@ -196,6 +209,7 @@ void displayProject(PROJECT* projects, int index)
 	cout << endl;
 }
 
+// function that outputs info about a task
 void displayTask(TASK* tasks, int index)
 {
 	if (tasks[index].isDeleted == false)
@@ -223,6 +237,7 @@ void displayTask(TASK* tasks, int index)
 	cout << endl;
 }
 
+// function that outputs info about a log
 void displayLog(LOG* logs, int index)
 {
 	if (logs[index].isDeleted == false)
@@ -241,6 +256,7 @@ void displayLog(LOG* logs, int index)
 }
 
 
+// function that outputs info about all users
 void displayAllUsers(USER* users, int index, USER currentUser)
 {
 	for (int i = 0; i < index; i++)
@@ -249,6 +265,7 @@ void displayAllUsers(USER* users, int index, USER currentUser)
 	}
 }
 
+// function that outputs info about all teams
 void displayAllTeams(TEAM* teams, int index)
 {
 	for (int i = 0; i < index; i++)
@@ -257,6 +274,7 @@ void displayAllTeams(TEAM* teams, int index)
 	}
 }
 
+// function that outputs info about all projects
 void displayAllProjects(PROJECT* projects, int index)
 {
 	for (int i = 0; i < index; i++)
@@ -265,6 +283,7 @@ void displayAllProjects(PROJECT* projects, int index)
 	}
 }
 
+// function that outputs info about all tasks
 void displayAllTasks(TASK* tasks, int index, int projectId)
 {
 	for (int i = 0; i < index; i++)
@@ -276,6 +295,7 @@ void displayAllTasks(TASK* tasks, int index, int projectId)
 	}
 }
 
+// function that outputs info about all logs
 void displayAllLogs(LOG* logs, int index, int taskId)
 {
 	for (int i = 0; i < index; i++)
@@ -288,6 +308,7 @@ void displayAllLogs(LOG* logs, int index, int taskId)
 }
 
 
+// function that obtains data about users from the database and loads an array of structures
 void getUserFromDatabase(nanodbc::connection conn, USER* users, int& index)
 {
 	nanodbc::statement statement(conn);
@@ -314,6 +335,7 @@ void getUserFromDatabase(nanodbc::connection conn, USER* users, int& index)
 	}
 }
 
+// function that obtains data about teams from the database and loads an array of structures
 void getTeamFromDatabase(nanodbc::connection conn, TEAM* teams, int& index)
 {
 	nanodbc::statement statement(conn);
@@ -336,6 +358,7 @@ void getTeamFromDatabase(nanodbc::connection conn, TEAM* teams, int& index)
 	}
 }
 
+// function that obtains data about projects from the database and loads an array of structures
 void getProjectFromDatabase(nanodbc::connection conn, PROJECT* projects, int& index)
 {
 	nanodbc::statement statement(conn);
@@ -359,6 +382,7 @@ void getProjectFromDatabase(nanodbc::connection conn, PROJECT* projects, int& in
 	}
 }
 
+// function that obtains data about tasks from the database and loads an array of structures
 void getTaskFromDatabase(nanodbc::connection conn, TASK* tasks, int& index)
 {
 	nanodbc::statement statement(conn);
@@ -387,6 +411,7 @@ void getTaskFromDatabase(nanodbc::connection conn, TASK* tasks, int& index)
 	}
 }
 
+// function that obtains data about logs from the database and loads an array of structures
 void getLogFromDatabase(nanodbc::connection conn, LOG* logs, int& index)
 {
 	nanodbc::statement statement(conn);
@@ -409,6 +434,7 @@ void getLogFromDatabase(nanodbc::connection conn, LOG* logs, int& index)
 }
 
 
+// function that inserts a user in an array of structures and in the database
 void insertUser(nanodbc::connection conn, USER* users, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
@@ -454,6 +480,7 @@ void insertUser(nanodbc::connection conn, USER* users, int& index, USER& current
 	cout << GREEN << "\n User has been successfully added" <<  RESET << endl << endl;
 }
 
+// function that inserts a team in an array of structures and in the database
 void insertTeam(nanodbc::connection conn, TEAM* teams, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
@@ -484,6 +511,7 @@ void insertTeam(nanodbc::connection conn, TEAM* teams, int& index, USER& current
 	cout << GREEN << "\n Team has been successfully added" << RESET << endl << endl;
 }
 
+// function that inserts a project in an array of structures and in the database
 void insertProject(nanodbc::connection conn, PROJECT* projects, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
@@ -518,6 +546,7 @@ void insertProject(nanodbc::connection conn, PROJECT* projects, int& index, USER
 	cout << GREEN << "\n Project has been successfully added" << RESET << endl << endl;
 }
 
+// function that inserts a task in an array of structures and in the database
 void insertTask(nanodbc::connection conn, TASK* tasks, int& index, int projectId, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
@@ -572,6 +601,7 @@ void insertTask(nanodbc::connection conn, TASK* tasks, int& index, int projectId
 	cout << GREEN << "\n Task has been successfully added" << RESET << endl << endl;
 }
 
+// function that inserts a log in an array of structures and in the database
 void insertLog(nanodbc::connection conn, LOG* logs, int& index, int taskId, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
@@ -606,6 +636,7 @@ void insertLog(nanodbc::connection conn, LOG* logs, int& index, int taskId, USER
 }
 
 
+// function that edits info about a user in the array and database
 void editUser(nanodbc::connection conn, USER* users, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
@@ -665,6 +696,7 @@ void editUser(nanodbc::connection conn, USER* users, int& index, USER& currentUs
 	cout << GREEN << "\n User has been successfully updated" << RESET << endl << endl;
 }
 
+// function that edits info about a team in the array and database
 void editTeam(nanodbc::connection conn, TEAM* teams, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
@@ -709,6 +741,7 @@ void editTeam(nanodbc::connection conn, TEAM* teams, int& index, USER& currentUs
 	cout << GREEN << "\n Team has been successfully updated" << RESET << endl << endl;
 }
 
+// function that edits info about a project in the array and database
 void editProject(nanodbc::connection conn, PROJECT* projects, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
@@ -758,6 +791,7 @@ void editProject(nanodbc::connection conn, PROJECT* projects, int& index, USER& 
 	cout << GREEN << "\n Project has been successfully updated" << RESET << endl << endl;
 }
 
+// function that edits info about a task in the array and database
 void editTask(nanodbc::connection conn, TASK* tasks, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
@@ -824,6 +858,7 @@ void editTask(nanodbc::connection conn, TASK* tasks, int& index, USER& currentUs
 	cout << GREEN << "\n Task has been successfully updated" << RESET << endl << endl;
 }
 
+// function that edits info about a log in the array and database
 void editLog(nanodbc::connection conn, LOG* logs, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
@@ -875,6 +910,7 @@ void editLog(nanodbc::connection conn, LOG* logs, int& index, USER& currentUser)
 }
 
 
+// function that removes a user from an array of structures and the database
 void deleteUser(nanodbc::connection conn, USER* users, int id, int& index)
 {
 	nanodbc::statement statement(conn);
@@ -904,6 +940,7 @@ void deleteUser(nanodbc::connection conn, USER* users, int id, int& index)
 	cout << GREEN << "\n User has been successfully removed!" << RESET<<endl<<endl;
 }
 
+// function that removes a team from an array of structures and the database
 void deleteTeam(nanodbc::connection conn, TEAM* teams, int id, int& index)
 {
 	nanodbc::statement statement(conn);
@@ -933,6 +970,7 @@ void deleteTeam(nanodbc::connection conn, TEAM* teams, int id, int& index)
 	cout << GREEN << "\n Team has been successfully removed!" << RESET << endl << endl;
 }
 
+// function that removes a project from an array of structures and the database
 void deleteProject(nanodbc::connection conn, PROJECT* projects, int id, int& index)
 {
 	nanodbc::statement statement(conn);
@@ -962,6 +1000,7 @@ void deleteProject(nanodbc::connection conn, PROJECT* projects, int id, int& ind
 	cout << GREEN << "\n Project has been successfully removed!" << RESET << endl << endl;
 }
 
+// function that removes a task from an array of structures and the database
 void deleteTask(nanodbc::connection conn, TASK* tasks, int id, int& index)
 {
 	nanodbc::statement statement(conn);
@@ -991,6 +1030,7 @@ void deleteTask(nanodbc::connection conn, TASK* tasks, int id, int& index)
 	cout << GREEN << "\n Task has been successfully removed!" << RESET << endl << endl;
 }
 
+// function that removes a log from an array of structures and the database
 void deleteLog(nanodbc::connection conn, LOG* logs, int id, int& index)
 {
 	nanodbc::statement statement(conn);
@@ -1021,15 +1061,15 @@ void deleteLog(nanodbc::connection conn, LOG* logs, int id, int& index)
 }
 
 
-// function that asks the user if they want to return to the main menu
+// function that asks the user if they want to stay in the same menu
 bool returnBack()
 {
 	int choice;
 
 	cout << endl;
-	cout << "What would you like to do now?" << endl << endl;
-	cout << "1)" << GRAY << " Stay in this menu" << RESET << endl;
-	cout << "2)" << GRAY << " Go one menu back" << RESET <<endl << endl;
+	spaces(25); cout << "What would you like to do now?" << endl << endl;
+	spaces(25); cout << "     1)" << GRAY << " Stay in this menu" << RESET << endl;
+	spaces(25); cout << "     2)" << GRAY << " Go one menu back" << RESET <<endl << endl;
 	cout << GRAY << " Enter your choice: " << RESET;
 
 	choice = cinInt();
@@ -1051,6 +1091,7 @@ bool returnBack()
 	return false;
 }
 
+// function that hides the text that is being entered by the user
 string enterHiddenText()
 {
 	string password = "";
@@ -1071,6 +1112,7 @@ string enterHiddenText()
 	return password;
 }
 
+// function that provides the log in functionality
 bool logIn(string& username, string& password, USER* users, int& userIndex, USER& currentUser)
 {
 	cout << "                                 | LOG IN |" << endl << endl;
@@ -1102,6 +1144,8 @@ bool logIn(string& username, string& password, USER* users, int& userIndex, USER
 	return false;
 }
 
+
+// function that outputs the Logs menu
 void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn, USER& currentUser)
 {
 	int taskId;
@@ -1176,6 +1220,7 @@ void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn, USER& c
 	}
 }
 
+// function that outputs the Tasks menu
 void displayTasksMenu(TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn, USER& currentUser)
 {
 	int projectId;
@@ -1252,6 +1297,7 @@ void displayTasksMenu(TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nan
 	}
 }
 
+// function that outputs the Projects menu
 void displayProjectsMenu(PROJECT* projects, int& projectIndex, TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn, USER& currentUser)
 {
 	bool cont = true;
@@ -1330,6 +1376,7 @@ void displayProjectsMenu(PROJECT* projects, int& projectIndex, TASK* tasks, int&
 	}
 }
 
+// function that outputs the Teams menu
 void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn, USER& currentUser)
 {
 	bool cont = true;
@@ -1422,6 +1469,7 @@ void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn, USE
 	}
 }
 
+// function that outputs the Users menu
 void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn, USER& currentUser)
 {
 	bool cont = true;
@@ -1508,6 +1556,7 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn, USE
 	}
 }
 
+// function that outputs the main menu
 void displayMainMenu(USER* users, int& userIndex, TEAM* teams, int& teamIndex, PROJECT* projects, int& projectIndex, TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nanodbc::connection conn, USER& currentUser)
 {
 
@@ -1565,6 +1614,7 @@ void displayMainMenu(USER* users, int& userIndex, TEAM* teams, int& teamIndex, P
 	}
 
 }
+
 
 int main()
 {
