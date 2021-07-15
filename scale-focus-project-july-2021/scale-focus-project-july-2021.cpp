@@ -1043,20 +1043,22 @@ string enterHiddenText()
 	string password = "";
 	char symbol = ' ';
 
-	while (symbol!='	')
+	while (symbol != '    ')
 	{
 		symbol = _getch();
-		if (symbol != '	')
-		 cout << GRAY << '*' << RESET;
-
-		password += symbol;
+		if (symbol != '    ')
+		{
+			cout << GRAY << '*' << RESET;
+			password += symbol;
+		}
 	}
+
 	cout << endl;
   
 	return password;
 }
 
-void logIn(string& username, string& password)
+bool logIn(string& username, string& password, USER* users, int& userIndex)
 {
 	cout << "                                   LOG IN" << endl;
 	cout << "Hi, in order to proceed with the program, please enter your username and password!" << endl << endl;
@@ -1066,6 +1068,25 @@ void logIn(string& username, string& password)
 
 	cout << "Password: ";
 	password = enterHiddenText();
+
+	int usernameMatchIndex = 0;
+	int usernameMatchCount = 0;
+
+	for (int i = 0; i < userIndex; i++)
+	{
+		if (users[i].username == username)
+		{
+			usernameMatchIndex = i;
+			usernameMatchCount++;
+		}
+	}
+
+	if (usernameMatchCount != 0 and users[usernameMatchIndex].username == username and users[usernameMatchIndex].password == password)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn)
@@ -1549,7 +1570,23 @@ int main()
 		}
 
 		displayWelcome();
-		logIn(currentUser.username, currentUser.password);
+		
+		bool success = false;
+
+		while (success == false)
+		{
+			success = logIn(currentUser.username, currentUser.password, users, userIndex);
+
+
+
+			if (success == false)
+			{
+				system("cls");
+				cout << RED << "Incorrect username or password! Try again: " << RESET << endl << endl;
+			}
+		}
+
+
 
 		system("cls");
 		
