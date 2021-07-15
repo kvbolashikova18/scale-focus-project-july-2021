@@ -131,7 +131,7 @@ void displayWelcome()
 	spaces(17); cout << "  \\ \\  /\\  / /__| | ___ ___  _ __ ___   ___ " << endl;
 	spaces(17); cout << "   \\ \\/  \\/ / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\" << endl;
 	spaces(17); cout << "    \\  /\\  /  __/ | (_| (_) | | | | | |  __/" << endl;
-	spaces(17); cout << "     \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|" << endl << endl;
+	spaces(17); cout << "     \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|" << endl << endl << endl;
 }
 
 
@@ -420,19 +420,19 @@ void insertUser(nanodbc::connection conn, USER* users, int& index, USER& current
     (?, ?, ?, ?, ?, ?, ?)
     )"));
 
-	cout << GRAY << "Username: " << RESET;
+	cout << GRAY << " Username: " << RESET;
 	users[index].username = cinText();
 	statement.bind(0, users[index].username.c_str());
 
-	cout << GRAY << "Password: " << RESET;
+	cout << GRAY << " Password: " << RESET;
 	users[index].password = cinText();
 	statement.bind(1, users[index].password.c_str());
 
-	cout << GRAY << "First name: " << RESET;
+	cout << GRAY << " First name: " << RESET;
 	users[index].firstName = cinText();
 	statement.bind(2, users[index].firstName.c_str());
 
-	cout << GRAY << "Last name: " << RESET;
+	cout << GRAY << " Last name: " << RESET;
 	users[index].lastName = cinText();
 	statement.bind(3, users[index].lastName.c_str());
 
@@ -449,7 +449,7 @@ void insertUser(nanodbc::connection conn, USER* users, int& index, USER& current
 
 	getUserFromDatabase(conn, users, index);
 
-	cout << GREEN << "User has been successfully added" <<  RESET << endl;
+	cout << GREEN << "\n User has been successfully added" <<  RESET << endl;
 }
 
 void insertTeam(nanodbc::connection conn, TEAM* teams, int& index, USER& currentUser)
@@ -463,7 +463,7 @@ void insertTeam(nanodbc::connection conn, TEAM* teams, int& index, USER& current
     (?, ?, ?)
     )"));
 
-	cout << GRAY << "Title: " << RESET;
+	cout << GRAY << " Title: " << RESET;
 	teams[index].title = cinText();
 	statement.bind(0, teams[index].title.c_str());
 
@@ -477,7 +477,7 @@ void insertTeam(nanodbc::connection conn, TEAM* teams, int& index, USER& current
 
 	getTeamFromDatabase(conn, teams, index);
 
-	cout << GREEN << "Team has been successfully added" << RESET << endl;
+	cout << GREEN << "\n Team has been successfully added" << RESET << endl;
 }
 
 void insertProject(nanodbc::connection conn, PROJECT* projects, int& index, USER& currentUser)
@@ -491,11 +491,11 @@ void insertProject(nanodbc::connection conn, PROJECT* projects, int& index, USER
     (?, ?, ?, ?)
     )"));
 
-	cout << GRAY << "Title: " << RESET;
+	cout << GRAY << " Title: " << RESET;
 	projects[index].title = cinText();
 	statement.bind(0, projects[index].title.c_str());
 
-	cout << GRAY << "Description: " << RESET;
+	cout << GRAY << " Description: " << RESET;
 	projects[index].description = cinText();
 	statement.bind(1, projects[index].description.c_str());
 
@@ -509,7 +509,7 @@ void insertProject(nanodbc::connection conn, PROJECT* projects, int& index, USER
 
 	getProjectFromDatabase(conn, projects, index);
 
-	cout << GREEN << "Project has been successfully added" << RESET << endl;
+	cout << GREEN << "\n Project has been successfully added" << RESET << endl;
 }
 
 void insertTask(nanodbc::connection conn, TASK* tasks, int& index, int projectId, USER& currentUser)
@@ -524,22 +524,22 @@ void insertTask(nanodbc::connection conn, TASK* tasks, int& index, int projectId
     )"));
 
 
-	cout << GRAY << "Title: " << RESET;
+	cout << GRAY << " Title: " << RESET;
 	tasks[index].title = cinText();
 	statement.bind(2, tasks[index].title.c_str());
 
-	cout << GRAY << "Description: " << RESET;
+	cout << GRAY << " Description: " << RESET;
 	tasks[index].description = cinText();
 	statement.bind(3, tasks[index].description.c_str());
 
 	tasks[index].idOfProject = projectId;
 	statement.bind(0, &tasks[index].idOfProject);
 
-	cout << GRAY << "Id of assignee: " << RESET;
+	cout << GRAY << " Id of assignee: " << RESET;
 	tasks[index].idOfAssignee = cinInt();
 	statement.bind(1, &tasks[index].idOfAssignee);
 
-	cout << GRAY << "Status (0 - Pending / 1 - In progress / 2 - Completed): " << RESET;
+	cout << GRAY << " Status (0 - Pending / 1 - In progress / 2 - Completed): " << RESET;
 	int status;
 	status = cinInt();
 	if (status == 0)
@@ -562,7 +562,7 @@ void insertTask(nanodbc::connection conn, TASK* tasks, int& index, int projectId
 	getTaskFromDatabase(conn, tasks, j);
 	index++;
 
-	cout << GREEN << "Task has been successfully added" << RESET << endl;
+	cout << GREEN << "\n Task has been successfully added" << RESET << endl;
 }
 
 void insertLog(nanodbc::connection conn, LOG* logs, int& index, int taskId, USER& currentUser)
@@ -579,11 +579,11 @@ void insertLog(nanodbc::connection conn, LOG* logs, int& index, int taskId, USER
 	logs[index].idOfTask = taskId;
 	statement.bind(0, &logs[index].idOfTask);
 
-	cout << GRAY << "Id of User: " << RESET;
+	cout << GRAY << " Id of User: " << RESET;
 	logs[index].idOfUser = cinInt();
 	statement.bind(1, &logs[index].idOfUser);
 
-	cout << GRAY << "Time spent (in hours): " << RESET;
+	cout << GRAY << " Time spent (in hours): " << RESET;
 	logs[index].time = cinInt();
 	statement.bind(2, &logs[index].time);
 
@@ -593,7 +593,7 @@ void insertLog(nanodbc::connection conn, LOG* logs, int& index, int taskId, USER
 	getLogFromDatabase(conn, logs, j);
 	index++;
 
-	cout << GREEN << "Log has been successfully added" << RESET << endl;
+	cout << GREEN << "\n Log has been successfully added" << RESET << endl;
 }
 
 
@@ -601,7 +601,7 @@ void editUser(nanodbc::connection conn, USER* users, int& index, USER& currentUs
 {
 	nanodbc::statement statement(conn);
 
-	cout << "Enter the ID of the user you want to edit: ";
+	cout << " Enter the ID of the user you want to edit: ";
 	int id = cinInt();
 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -628,19 +628,19 @@ void editUser(nanodbc::connection conn, USER* users, int& index, USER& currentUs
      WHERE Id = ?;
     )"));
 
-	cout << GRAY << "New username: " << RESET;
+	cout << GRAY << " New username: " << RESET;
 	users[position].username = cinText();
 	statement.bind(0, users[position].username.c_str());
 
-	cout << GRAY << "New password: " << RESET;
+	cout << GRAY << " New password: " << RESET;
 	users[position].password = cinText();
 	statement.bind(1, users[position].password.c_str());
 
-	cout << GRAY << "New first name: " << RESET;
+	cout << GRAY << " New first name: " << RESET;
 	users[position].firstName = cinText();
 	statement.bind(2, users[position].firstName.c_str());
 
-	cout << GRAY << "New last name: " << RESET;
+	cout << GRAY << " New last name: " << RESET;
 	users[position].lastName = cinText();
 	statement.bind(3, users[position].lastName.c_str());
 
@@ -651,14 +651,14 @@ void editUser(nanodbc::connection conn, USER* users, int& index, USER& currentUs
 
 	execute(statement);
 
-	cout << GREEN << "User has been successfully updated" << RESET << endl;
+	cout << GREEN << "\n User has been successfully updated" << RESET << endl;
 }
 
 void editTeam(nanodbc::connection conn, TEAM* teams, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
 
-	cout << "Enter the ID of the team you want to edit: ";
+	cout << " Enter the ID of the team you want to edit: ";
 	int id = cinInt();
 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -682,7 +682,7 @@ void editTeam(nanodbc::connection conn, TEAM* teams, int& index, USER& currentUs
      WHERE Id = ?;
     )"));
 
-	cout << GRAY << "New title: " << RESET;
+	cout << GRAY << " New title: " << RESET;
 	teams[position].title = cinText();
 	statement.bind(0, teams[position].title.c_str());
 
@@ -693,14 +693,14 @@ void editTeam(nanodbc::connection conn, TEAM* teams, int& index, USER& currentUs
 
 	execute(statement);
 
-	cout << GREEN << "Team has been successfully updated" << RESET << endl;
+	cout << GREEN << "\n Team has been successfully updated" << RESET << endl;
 }
 
 void editProject(nanodbc::connection conn, PROJECT* projects, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
 
-	cout << "Enter the ID of the project you want to edit: ";
+	cout << " Enter the ID of the project you want to edit: ";
 	int id = cinInt();
 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -725,11 +725,11 @@ void editProject(nanodbc::connection conn, PROJECT* projects, int& index, USER& 
      WHERE Id = ?;
     )"));
 
-	cout << GRAY << "New title: " << RESET;
+	cout << GRAY << " New title: " << RESET;
 	projects[position].title = cinText();
 	statement.bind(0, projects[position].title.c_str());
 
-	cout << GRAY << "New description: " << RESET;
+	cout << GRAY << " New description: " << RESET;
 	projects[position].description = cinText();
 	statement.bind(1, projects[position].description.c_str());
 
@@ -740,14 +740,14 @@ void editProject(nanodbc::connection conn, PROJECT* projects, int& index, USER& 
 
 	execute(statement);
 
-	cout << GREEN << "Project has been successfully updated" << RESET << endl;
+	cout << GREEN << "\n Project has been successfully updated" << RESET << endl;
 }
 
 void editTask(nanodbc::connection conn, TASK* tasks, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
 
-	cout << "Enter the ID of the task you want to edit: ";
+	cout << " Enter the ID of the task you want to edit: ";
 	int id = cinInt();
 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -774,15 +774,15 @@ void editTask(nanodbc::connection conn, TASK* tasks, int& index, USER& currentUs
      WHERE Id = ?;
     )"));
 
-	cout << GRAY << "New title: " << RESET;
+	cout << GRAY << " New title: " << RESET;
 	tasks[position].title = cinText();
 	statement.bind(1, tasks[position].title.c_str());
 
-	cout << GRAY << "New description: " << RESET;
+	cout << GRAY << " New description: " << RESET;
 	tasks[position].description = cinText();
 	statement.bind(2, tasks[position].description.c_str());
 
-	cout << GRAY << "New status (0 - Pending / 1 - In progress / 2 - Completed): " << RESET;
+	cout << GRAY << " New status (0 - Pending / 1 - In progress / 2 - Completed): " << RESET;
 	int status;
 	status = cinInt();
 	if (status == 0)
@@ -793,7 +793,7 @@ void editTask(nanodbc::connection conn, TASK* tasks, int& index, USER& currentUs
 		tasks[position].status = status::completed;
 	statement.bind(3, &status);
 
-	cout << GRAY << "Id of new assignee: " << RESET;
+	cout << GRAY << " Id of new assignee: " << RESET;
 	tasks[position].idOfAssignee = cinInt();
 	statement.bind(0, &tasks[position].idOfAssignee);
 
@@ -804,14 +804,14 @@ void editTask(nanodbc::connection conn, TASK* tasks, int& index, USER& currentUs
 
 	execute(statement);
 
-	cout << GREEN << "Task has been successfully updated" << RESET << endl;
+	cout << GREEN << "\n Task has been successfully updated" << RESET << endl;
 }
 
 void editLog(nanodbc::connection conn, LOG* logs, int& index, USER& currentUser)
 {
 	nanodbc::statement statement(conn);
 
-	cout << "Enter the ID of the log you want to edit: ";
+	cout << " Enter the ID of the log you want to edit: ";
 	int id = cinInt();
 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -837,15 +837,15 @@ void editLog(nanodbc::connection conn, LOG* logs, int& index, USER& currentUser)
     )"));
 
 
-	cout << GRAY << "Id of new task: " << RESET;
+	cout << GRAY << " Id of new task: " << RESET;
 	logs[position].idOfTask = cinInt();
 	statement.bind(0, &logs[position].idOfTask);
 
-	cout << GRAY << "Id of new user: " << RESET;
+	cout << GRAY << " Id of new user: " << RESET;
 	logs[position].idOfUser = cinInt();
 	statement.bind(1, &logs[position].idOfUser);
 
-	cout << GRAY << "Time spent (in hours): " << RESET;
+	cout << GRAY << " Time spent (in hours): " << RESET;
 	logs[position].time = cinInt();
 	statement.bind(2, &logs[position].time);
 
@@ -853,7 +853,7 @@ void editLog(nanodbc::connection conn, LOG* logs, int& index, USER& currentUser)
 
 	execute(statement);
 
-	cout << GREEN << "Log has been successfully updated" << RESET << endl;
+	cout << GREEN << "\n Log has been successfully updated" << RESET << endl;
 }
 
 
@@ -883,7 +883,7 @@ void deleteUser(nanodbc::connection conn, USER* users, int id, int& index)
 
 	users[position].isDeleted = true;
 
-	cout << GREEN << "User has been successfully removed!" << RESET<<endl;
+	cout << GREEN << "\n User has been successfully removed!" << RESET<<endl;
 }
 
 void deleteTeam(nanodbc::connection conn, TEAM* teams, int id, int& index)
@@ -912,7 +912,7 @@ void deleteTeam(nanodbc::connection conn, TEAM* teams, int id, int& index)
 
 	teams[position].isDeleted = true;
 
-	cout << GREEN << "Team has been successfully removed!" << RESET << endl;
+	cout << GREEN << "\n Team has been successfully removed!" << RESET << endl;
 }
 
 void deleteProject(nanodbc::connection conn, PROJECT* projects, int id, int& index)
@@ -941,7 +941,7 @@ void deleteProject(nanodbc::connection conn, PROJECT* projects, int id, int& ind
 
 	projects[position].isDeleted = true;
 
-	cout << GREEN << "Project has been successfully removed!" << RESET << endl;
+	cout << GREEN << "\n Project has been successfully removed!" << RESET << endl;
 }
 
 void deleteTask(nanodbc::connection conn, TASK* tasks, int id, int& index)
@@ -970,7 +970,7 @@ void deleteTask(nanodbc::connection conn, TASK* tasks, int id, int& index)
 
 	tasks[position].isDeleted = true;
 
-	cout << GREEN << "Task has been successfully removed!" << RESET << endl;
+	cout << GREEN << "\n Task has been successfully removed!" << RESET << endl;
 }
 
 void deleteLog(nanodbc::connection conn, LOG* logs, int id, int& index)
@@ -999,7 +999,7 @@ void deleteLog(nanodbc::connection conn, LOG* logs, int id, int& index)
 
 	logs[position].isDeleted = true;
 
-	cout << GREEN << "Log has been successfully removed!" << RESET << endl;
+	cout << GREEN << "\n Log has been successfully removed!" << RESET << endl;
 }
 
 
@@ -1012,7 +1012,7 @@ bool returnBack()
 	cout << "What would you like to do now?" << endl << endl;
 	cout << "1)" << GRAY << " Stay in this menu" << RESET << endl;
 	cout << "2)" << GRAY << " Go one menu back" << RESET <<endl << endl;
-	cout << "Enter your choice: ";
+	cout << " Enter your choice: ";
 
 	choice = cinInt();
 
@@ -1055,13 +1055,12 @@ string enterHiddenText()
 
 bool logIn(string& username, string& password, USER* users, int& userIndex, USER& currentUser)
 {
-	cout << "                                   LOG IN" << endl;
-	cout << "Hi, in order to proceed with the program, please enter your username and password!" << endl << endl;
+	cout << "                                 | LOG IN |" << endl << endl;
 
-	cout << "Username: ";
+	cout << "                             Username: ";
 	getline(cin, username);
 
-	cout << "Password: ";
+	cout << "                             Password: ";
 	password = enterHiddenText();
 
 	int usernameMatchIndex = 0;
@@ -1088,7 +1087,7 @@ bool logIn(string& username, string& password, USER* users, int& userIndex, USER
 void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn, USER& currentUser)
 {
 	int taskId;
-	cout << "Please, enter the ID of the task, the logs of which you want to see: ";
+	cout << " Please, enter the ID of the task, the logs of which you want to see: ";
 	cin >> taskId;
 
 	system("cls");
@@ -1100,23 +1099,24 @@ void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn, USER& c
 		int choice = 0;
 
 		cout << endl;
-		cout << "  _                     " << endl;
-		cout << " | |                    " << endl;
-		cout << " | |     ___   __ _ ___ " << endl;
-		cout << " | |    / _ \\ / _` / __|" << endl;
-		cout << " | |___| (_) | (_| \\__ \\" << endl;
-		cout << " |______\\___/ \\__, |___/" << endl;
-		cout << "               __/ |    " << endl;
-		cout << "              |___/     " << endl << endl;
-		cout << " ========================================" << endl;
-		cout << "|" << " 1)" << YELLOW << " Show a list of all logs" << RESET << "             |" << endl;
-		cout << "|" << " 2)" << GREEN << " Create a log" << RESET << "                        |" << endl;
-		cout << "|" << " 3)" << CYAN << " Edit a log" << RESET << "                          |" << endl;
-		cout << "|" << " 4)" << RED << " Delete a log" << RESET << "                        |" << endl;
-		cout << "|" << " 5)" << GRAY << " Return back to the Tasks menu" << RESET << "       |" << endl;
-		cout << " ========================================" << endl << endl;
+		spaces(27);  cout << "  _                     " << endl;
+		spaces(27);  cout << " | |                    " << endl;
+		spaces(27);  cout << " | |     ___   __ _ ___ " << endl;
+		spaces(27);  cout << " | |    / _ \\ / _` / __|" << endl;
+		spaces(27);  cout << " | |___| (_) | (_| \\__ \\" << endl;
+		spaces(27);  cout << " |______\\___/ \\__, |___/" << endl;
+		spaces(27);  cout << "               __/ |    " << endl;
+		spaces(27);  cout << "              |___/     " << endl << endl;
+		spaces(19);  cout << " ________________________________________" << endl;
+		spaces(19);  cout << "|                                        |" << endl;
+		spaces(19);  cout << "|" << " 1)" << YELLOW << " Show a list of all logs" << RESET << "             |" << endl;
+		spaces(19);  cout << "|" << " 2)" << GREEN << " Create a log" << RESET << "                        |" << endl;
+		spaces(19);  cout << "|" << " 3)" << CYAN << " Edit a log" << RESET << "                          |" << endl;
+		spaces(19);  cout << "|" << " 4)" << RED << " Delete a log" << RESET << "                        |" << endl;
+		spaces(19);  cout << "|" << " 5)" << GRAY << " Return back to the Tasks menu" << RESET << "       |" << endl;
+		spaces(19);  cout << "|________________________________________|" << endl << endl;
 
-		cout << "Enter your choice: ";
+		cout << " Enter your choice: ";
 		choice = cinInt();
 
 		while (choice > 5 or choice < 1)
@@ -1146,7 +1146,7 @@ void displayLogsMenu(LOG* logs, int& logIndex, nanodbc::connection conn, USER& c
 			break;
 		case 4:
 			int id;
-			cout << "Enter the ID of the log you want to remove: ";
+			cout << " Enter the ID of the log you want to remove: ";
 			cin >> id;
 			deleteLog(conn, logs, id, logIndex);
 			cont = returnBack();
@@ -1173,22 +1173,23 @@ void displayTasksMenu(TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nan
 		int choice = 0;
 
 		cout << endl;
-		cout << "  _______        _        " << endl;
-		cout << " |__   __|      | |       " << endl;
-		cout << "    | | __ _ ___| | _____ " << endl;
-		cout << "    | |/ _` / __| |/ / __|" << endl;
-		cout << "    | | (_| \\__ \\   <\\__ \\" << endl;
-		cout << "    |_|\\__,_|___/_|\\_\\___/" << endl << endl;
-		cout << " ========================================" << endl;
-		cout << "|" << " 1)" << YELLOW << " Show a list of all tasks" << RESET << "            |" << endl;
-		cout << "|" << " 2)" << GREEN << " Create a task" << RESET << "                       |" << endl;
-		cout << "|" << " 3)" << CYAN << " Edit a task" << RESET << "                         |" << endl;
-		cout << "|" << " 4)" << RED << " Delete a task" << RESET << "                       |" << endl;
-		cout << "|" << " 5)" << BLUE << " View the Logs menu for this task" << RESET << "    |" << endl;
-		cout << "|" << " 6)" << GRAY << " Return back to the Projects menu" << RESET << "    |" << endl;
-		cout << " ========================================" << endl << endl;
+		spaces(26);  cout << "  _______        _        " << endl;
+		spaces(26);  cout << " |__   __|      | |       " << endl;
+		spaces(26);  cout << "    | | __ _ ___| | _____ " << endl;
+		spaces(26);  cout << "    | |/ _` / __| |/ / __|" << endl;
+		spaces(26);  cout << "    | | (_| \\__ \\   <\\__ \\" << endl;
+		spaces(26);  cout << "    |_|\\__,_|___/_|\\_\\___/" << endl << endl;
+		spaces(20);  cout << " ________________________________________" << endl;
+		spaces(20);  cout << "|                                        |" << endl;
+		spaces(20);  cout << "|" << " 1)" << YELLOW << " Show a list of all tasks" << RESET << "            |" << endl;
+		spaces(20);  cout << "|" << " 2)" << GREEN << " Create a task" << RESET << "                       |" << endl;
+		spaces(20);  cout << "|" << " 3)" << CYAN << " Edit a task" << RESET << "                         |" << endl;
+		spaces(20);  cout << "|" << " 4)" << RED << " Delete a task" << RESET << "                       |" << endl;
+		spaces(20);  cout << "|" << " 5)" << BLUE << " View the Logs menu for this task" << RESET << "    |" << endl;
+		spaces(20);  cout << "|" << " 6)" << GRAY << " Return back to the Projects menu" << RESET << "    |" << endl;
+		spaces(20);  cout << "|________________________________________|" << endl << endl;
 
-		cout << "Enter your choice: ";
+		cout << " Enter your choice: ";
 		choice = cinInt();
 
 		while (choice > 6 or choice < 1)
@@ -1218,7 +1219,7 @@ void displayTasksMenu(TASK* tasks, int& taskIndex, LOG* logs, int& logIndex, nan
 			break;
 		case 4:
 			int id;
-			cout << "Enter the ID of the task you want to remove: ";
+			cout << " Enter the ID of the task you want to remove: ";
 			cin >> id;
 			deleteTask(conn, tasks, id, taskIndex);
 			cont = returnBack();
@@ -1242,25 +1243,26 @@ void displayProjectsMenu(PROJECT* projects, int& projectIndex, TASK* tasks, int&
 		int choice = 0;
 
 		cout << endl;
-		cout << "  _____           _           _       " << endl;
-		cout << " |  __ \\         (_)         | |      " << endl;
-		cout << " | |__) | __ ___  _  ___  ___| |_ ___ " << endl;
-		cout << " |  ___/ '__/ _ \\| |/ _ \\/ __| __/ __|" << endl;
-		cout << " | |   | | | (_) | |  __/ (__| |_\\__ \\" << endl;
-		cout << " |_|   |_|  \\___/| |\\___|\\___|\\__|___/" << endl;
-		cout << "                _/ |                  " << endl;
-		cout << "               |__/                   " << endl << endl;
-		cout << " ========================================" << endl;
-		cout << "|" << " 1)" << YELLOW << " Show a list of all projects" << RESET << "         |" << endl;
-		cout << "|" << " 2)" << GREEN << " Create a project" << RESET << "                    |" << endl;
-		cout << "|" << " 3)" << CYAN << " Edit a project" << RESET << "                      |" << endl;
-		cout << "|" << " 4)" << RED << " Delete a project" << RESET << "                    |" << endl;
-		cout << "|" << " 5)" << PURPLE << " Assign a team to a project" << RESET << "          |" << endl;
-		cout << "|" << " 6)" << BLUE << " View the Task menu for this project" << RESET << " |" << endl;
-		cout << "|" << " 7)" << GRAY << " Return back to the Main Menu" << RESET << "        |" << endl;
-		cout << " ========================================" << endl << endl;
+		spaces(20);  cout << "  _____           _           _       " << endl;
+		spaces(20);  cout << " |  __ \\         (_)         | |      " << endl;
+		spaces(20);  cout << " | |__) | __ ___  _  ___  ___| |_ ___ " << endl;
+		spaces(20);  cout << " |  ___/ '__/ _ \\| |/ _ \\/ __| __/ __|" << endl;
+		spaces(20);  cout << " | |   | | | (_) | |  __/ (__| |_\\__ \\" << endl;
+		spaces(20);  cout << " |_|   |_|  \\___/| |\\___|\\___|\\__|___/" << endl;
+		spaces(20);  cout << "                _/ |                  " << endl;
+		spaces(20);  cout << "               |__/                   " << endl << endl;
+		spaces(19);  cout << " ________________________________________" << endl;
+		spaces(19);  cout << "|                                        |" << endl;
+		spaces(19);  cout << "|" << " 1)" << YELLOW << " Show a list of all projects" << RESET << "         |" << endl;
+		spaces(19);  cout << "|" << " 2)" << GREEN << " Create a project" << RESET << "                    |" << endl;
+		spaces(19);  cout << "|" << " 3)" << CYAN << " Edit a project" << RESET << "                      |" << endl;
+		spaces(19);  cout << "|" << " 4)" << RED << " Delete a project" << RESET << "                    |" << endl;
+		spaces(19);  cout << "|" << " 5)" << PURPLE << " Assign a team to a project" << RESET << "          |" << endl;
+		spaces(19);  cout << "|" << " 6)" << BLUE << " View the Task menu for this project" << RESET << " |" << endl;
+		spaces(19);  cout << "|" << " 7)" << GRAY << " Return back to the Main Menu" << RESET << "        |" << endl;
+		spaces(19);  cout << "|________________________________________|" << endl << endl;
 
-		cout << "Enter your choice: ";
+		cout << " Enter your choice: ";
 		choice = cinInt();
 
 		while (choice > 7 or choice < 1)
@@ -1290,7 +1292,7 @@ void displayProjectsMenu(PROJECT* projects, int& projectIndex, TASK* tasks, int&
 			break;
 		case 4:
 			int id;
-			cout << "Enter the ID of the project you want to remove: ";
+			cout << " Enter the ID of the project you want to remove: ";
 			cin >> id;
 			deleteProject(conn, projects, id, projectIndex);
 			cont = returnBack();
@@ -1318,22 +1320,23 @@ void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn, USE
 		int choice = 0;
 
 		cout << endl;
-		cout << "  _______                       " << endl;
-		cout << " |__   __|                      " << endl;
-		cout << "    | | ___  __ _ _ __ ___  ___ " << endl;
-		cout << "    | |/ _ \\/ _` | '_ ` _ \\/ __|" << endl;
-		cout << "    | |  __/ (_| | | | | | \\__ \\" << endl;
-		cout << "    |_|\\___|\\__,_|_| |_| |_|___/" << endl << endl;
-		cout << " =======================================" << endl;
-		cout << "|" << " 1)" << YELLOW << " Show a list of all teams" << RESET << "           |" << endl;
-		cout << "|" << " 2)" << GREEN << " Create a team" << RESET << "                      |" << endl;
-		cout << "|" << " 3)" << CYAN << " Edit a team" << RESET << "                        |" << endl;
-		cout << "|" << " 4)" << RED << " Delete a team" << RESET << "                      |" << endl;
-		cout << "|" << " 5)" << PURPLE << " Assign a user to a team" << RESET << "            |" << endl;
-		cout << "|" << " 6)" << GRAY << " Return back to the Main Menu" << RESET << "       |" << endl;
-		cout << " =======================================" << endl << endl;
+		spaces(23);  cout << "  _______                       " << endl;
+		spaces(23);  cout << " |__   __|                      " << endl;
+		spaces(23);  cout << "    | | ___  __ _ _ __ ___  ___ " << endl;
+		spaces(23);  cout << "    | |/ _ \\/ _` | '_ ` _ \\/ __|" << endl;
+		spaces(23);  cout << "    | |  __/ (_| | | | | | \\__ \\" << endl;
+		spaces(23);  cout << "    |_|\\___|\\__,_|_| |_| |_|___/" << endl << endl;
+		spaces(20);  cout << " _______________________________________" << endl;
+		spaces(20);  cout << "|                                       |" << endl;
+		spaces(20);  cout << "|" << " 1)" << YELLOW << " Show a list of all teams" << RESET << "           |" << endl;
+		spaces(20);  cout << "|" << " 2)" << GREEN << " Create a team" << RESET << "                      |" << endl;
+		spaces(20);  cout << "|" << " 3)" << CYAN << " Edit a team" << RESET << "                        |" << endl;
+		spaces(20);  cout << "|" << " 4)" << RED << " Delete a team" << RESET << "                      |" << endl;
+		spaces(20);  cout << "|" << " 5)" << PURPLE << " Assign a user to a team" << RESET << "            |" << endl;
+		spaces(20);  cout << "|" << " 6)" << GRAY << " Return back to the Main Menu" << RESET << "       |" << endl;
+		spaces(20);  cout << "|_______________________________________|" << endl << endl;
 
-		cout << "Enter your choice: ";
+		cout << " Enter your choice: ";
 		choice = cinInt();
 
 		while (choice > 6 or choice < 1)
@@ -1371,7 +1374,7 @@ void displayTeamsMenu(TEAM* teams, int& teamIndex, nanodbc::connection conn, USE
 			if (currentUser.isAdmin == true)
 			{
 				int id;
-				cout << "Enter the ID of the team you want to remove: ";
+				cout << " Enter the ID of the team you want to remove: ";
 				cin >> id;
 				deleteTeam(conn, teams, id, teamIndex);
 			}
@@ -1399,21 +1402,22 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn, USE
 		int choice = 0;
 
 		cout << endl;
-		spaces(30); cout << "  _    _                   " << endl;
-		spaces(30); cout << " | |  | |                  " << endl;
-		spaces(30); cout << " | |  | |___  ___ _ __ ___ " << endl;
-		spaces(30); cout << " | |  | / __|/ _ \\ '__/ __|" << endl;
-		spaces(30); cout << " | |__| \\__ \\  __/ |  \\__ \\" << endl;
-		spaces(30); cout << "  \\____/|___/\\___|_|  |___/" << endl << endl << endl;
-		spaces(23); cout << " =======================================" << endl;
-		spaces(23); cout << "|" << " 1)" << YELLOW << " Show a list of all users" << RESET << "           |" << endl;
-		spaces(23); cout << "|" << " 2)" << GREEN << " Create a user" << RESET << "                      |" << endl;
-		spaces(23); cout << "|" << " 3)" << CYAN << " Edit a user" << RESET << "                        |" << endl;
-		spaces(23); cout << "|" << " 4)" << RED << " Delete a user" << RESET << "                      |" << endl;
-		spaces(23); cout << "|" << " 5)" << GRAY << " Return back to the Main Menu" << RESET << "       |" << endl;
-		spaces(23); cout << " =======================================" << endl << endl;
+		spaces(26); cout << "  _    _                   " << endl;
+		spaces(26); cout << " | |  | |                  " << endl;
+		spaces(26); cout << " | |  | |___  ___ _ __ ___ " << endl;
+		spaces(26); cout << " | |  | / __|/ _ \\ '__/ __|" << endl;
+		spaces(26); cout << " | |__| \\__ \\  __/ |  \\__ \\" << endl;
+		spaces(26); cout << "  \\____/|___/\\___|_|  |___/" << endl << endl << endl;
+		spaces(20); cout << " _______________________________________" << endl;
+		spaces(20); cout << "|                                       |" << endl;
+		spaces(20); cout << "|" << " 1)" << YELLOW << " Show a list of all users" << RESET << "           |" << endl;
+		spaces(20); cout << "|" << " 2)" << GREEN << " Create a user" << RESET << "                      |" << endl;
+		spaces(20); cout << "|" << " 3)" << CYAN << " Edit a user" << RESET << "                        |" << endl;
+		spaces(20); cout << "|" << " 4)" << RED << " Delete a user" << RESET << "                      |" << endl;
+		spaces(20); cout << "|" << " 5)" << GRAY << " Return back to the Main Menu" << RESET << "       |" << endl;
+		spaces(20); cout << "|_______________________________________|" << endl << endl;
 
-		cout << "Enter your choice: ";
+		cout << " Enter your choice: ";
 		choice = cinInt();
 
 		while (choice > 5 or choice < 1)
@@ -1451,7 +1455,7 @@ void displayUsersMenu(USER* users, int& userIndex, nanodbc::connection conn, USE
 			if (currentUser.isAdmin == true)
 			{
 				int id;
-				cout << "Enter the ID of the user you want to remove: ";
+				cout << " Enter the ID of the user you want to remove: ";
 				cin >> id;
 				deleteUser(conn, users, id, userIndex);
 			}
@@ -1493,7 +1497,7 @@ void displayMainMenu(USER* users, int& userIndex, TEAM* teams, int& teamIndex, P
 		spaces(29);  cout << "|" << " 4)" << GRAY << " Exit" << RESET << "             |" << endl;
 		spaces(29);  cout << " =====================" << endl;
 		cout << endl;
-		cout << "Enter your choice: ";
+		cout << " Enter your choice: ";
 		choice = cinInt();
 
 		while (choice > 4 or choice < 1)
@@ -1576,7 +1580,8 @@ int main()
 			if (success == false)
 			{
 				system("cls");
-				cout << RED << "Incorrect username or password! Try again: " << RESET << endl << endl;
+				cout << endl;
+				spaces(18);  cout << RED << "Incorrect username or password! Try again: " << RESET << endl << endl;
 			}
 		}
 
