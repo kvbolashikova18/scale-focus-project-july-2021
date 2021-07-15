@@ -308,6 +308,7 @@ void getUserFromDatabase(nanodbc::connection conn, USER* users, int& index)
 		users[index].idOfCreator = result.get<int>("Id of creator");
 		users[index].dateOfLastChange = result.get<nanodbc::string>("Date of last change");
 		users[index].idOfChanger = result.get<int>("Id of changer");
+		users[index].isAdmin = result.get<int>("isAdmin");
 
 		index++;
 	}
@@ -1043,10 +1044,10 @@ string enterHiddenText()
 	string password = "";
 	char symbol = ' ';
 
-	while (symbol != '    ')
+	while (symbol != '	')
 	{
 		symbol = _getch();
-		if (symbol != '    ')
+		if (symbol != '	')
 		{
 			cout << GRAY << '*' << RESET;
 			password += symbol;
@@ -1058,7 +1059,7 @@ string enterHiddenText()
 	return password;
 }
 
-bool logIn(string& username, string& password, USER* users, int& userIndex)
+bool logIn(string& username, string& password, USER* users, int& userIndex, USER& currentUser)
 {
 	cout << "                                   LOG IN" << endl;
 	cout << "Hi, in order to proceed with the program, please enter your username and password!" << endl << endl;
@@ -1084,6 +1085,7 @@ bool logIn(string& username, string& password, USER* users, int& userIndex)
 	if (usernameMatchCount != 0 and users[usernameMatchIndex].username == username and users[usernameMatchIndex].password == password)
 	{
 		return true;
+		currentUser = users[usernameMatchIndex];
 	}
 
 	return false;
@@ -1575,9 +1577,7 @@ int main()
 
 		while (success == false)
 		{
-			success = logIn(currentUser.username, currentUser.password, users, userIndex);
-
-
+			success = logIn(currentUser.username, currentUser.password, users, userIndex, currentUser);
 
 			if (success == false)
 			{
@@ -1585,8 +1585,6 @@ int main()
 				cout << RED << "Incorrect username or password! Try again: " << RESET << endl << endl;
 			}
 		}
-
-
 
 		system("cls");
 		
