@@ -1115,8 +1115,8 @@ string enterHiddenText()
 // function that provides the log in functionality
 bool logIn(string& username, string& password, USER* users, int& userIndex, USER& currentUser)
 {
-	cout << "                                 | LOG IN |" << endl << endl;
-
+	cout << "                                   | LOG IN |" << endl << endl;
+	cout << GRAY << "               Press Enter after username and Tab after password!" << RESET << endl<<endl;
 	cout << "                             Username: ";
 	getline(cin, username);
 
